@@ -1,6 +1,6 @@
 ---
 name: research-refine
-description: 'Turn a vague research direction into a problem-anchored, elegant, frontier-aware, implementation-oriented method plan via iterative GPT-5.4 review. Use when the user says "refine my approach", "帮我细化方案", "decompose this problem", "打磨idea", "refine research plan", "细化研究方案", or wants a concrete research method that stays simple, focused, and top-venue ready instead of a vague or overbuilt idea.'
+description: 'Turn a vague research direction into a problem-anchored, elegant, frontier-aware, implementation-oriented method plan via iterative qwen3.7-plus review. Use when the user says "refine my approach", "帮我细化方案", "decompose this problem", "打磨idea", "refine research plan", "细化研究方案", or wants a concrete research method that stays simple, focused, and top-venue ready instead of a vague or overbuilt idea.'
 allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, WebSearch, WebFetch, Agent, mcp__codex__codex, mcp__codex__codex-reply
 ---
 
@@ -23,7 +23,7 @@ Four principles dominate this skill:
 User input (PROBLEM + vague APPROACH)
   -> Phase 0 (Claude): Freeze Problem Anchor
   -> Phase 1 (Claude): Scan grounding papers -> identify technical gap -> choose the sharpest route -> write focused proposal
-  -> Phase 2 (Codex/GPT-5.4): Review for fidelity, specificity, contribution quality, and frontier leverage
+  -> Phase 2 (Codex/qwen3.7-plus): Review for fidelity, specificity, contribution quality, and frontier leverage
   -> Phase 3 (Claude): Anchor check + simplicity check -> revise method -> rewrite full proposal
   -> Phase 4 (Codex, same thread): Re-evaluate revised proposal
   -> Repeat Phase 3-4 until OVERALL SCORE >= 9 or MAX_ROUNDS reached
@@ -33,7 +33,7 @@ User input (PROBLEM + vague APPROACH)
 
 ## Constants
 
-- **REVIEWER_MODEL = `gpt-5.4`** — Reviewer model used via Codex MCP.
+- **REVIEWER_MODEL = `qwen3.7-plus`** — Reviewer model used via Codex MCP.
 - **MAX_ROUNDS = 5** — Maximum review-revise rounds.
 - **SCORE_THRESHOLD = 9** — Minimum overall score to stop.
 - **OUTPUT_DIR = `refine-logs/`** — Directory for round files and final report.
@@ -252,12 +252,12 @@ Use this structure:
 
 ### Phase 2: External Method Review (Round 1)
 
-Send the full proposal to GPT-5.4 for an **elegance-first, frontier-aware, method-first** review. The reviewer should spend most of the critique budget on the method itself, not on expanding the experiment menu.
+Send the full proposal to qwen3.7-plus for an **elegance-first, frontier-aware, method-first** review. The reviewer should spend most of the critique budget on the method itself, not on expanding the experiment menu.
 
 ```
 mcp__codex__codex:
   model: REVIEWER_MODEL
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     You are a senior ML reviewer for a top venue (NeurIPS/ICML/ICLR).
     This is an early-stage, method-first research proposal.
@@ -427,13 +427,13 @@ Save to `refine-logs/round-N-refinement.md`:
 
 ### Phase 4: Re-evaluation (Round 2+)
 
-Send the revised proposal back to GPT-5.4 in the **same thread**:
+Send the revised proposal back to qwen3.7-plus in the **same thread**:
 
 ```
 mcp__codex__codex-reply:
   threadId: [saved from Phase 2]
   model: REVIEWER_MODEL
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     [Round N re-evaluation]
 
@@ -576,7 +576,7 @@ If the final verdict is not READY, still write the best current final version he
 <details>
 <summary>Round 1 Review</summary>
 
-[Full verbatim response from GPT-5.4]
+[Full verbatim response from qwen3.7-plus]
 
 </details>
 
@@ -633,7 +633,7 @@ Suggested next step: /experiment-plan
 - **Minimal experiments.** Inside this skill, experiments only need to prove the core claims.
 - **Review the mechanism, not the parts count.** A long module list is not novelty.
 - **Pushback is encouraged.** If reviewer feedback causes drift or unnecessary complexity, argue back with evidence.
-- **ALWAYS use `config: {"model_reasoning_effort": "xhigh"}`** for all Codex review calls.
+- **ALWAYS use `config: {"model_reasoning_effort": "medium"}`** for all Codex review calls.
 - **Save `threadId` from Phase 2** and use `mcp__codex__codex-reply` for later rounds.
 - **Do not fabricate results.** Only describe expected evidence and planned experiments.
 - **Be specific about compute and data assumptions.** Vague "we'll train a model" is not enough.

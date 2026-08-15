@@ -24,7 +24,7 @@ Custom [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for 
 >
 > 💭 **Why two models, not more?** Two is the minimum needed to break self-play blind spots, and 2-player games converge to Nash equilibrium far more efficiently than n-player ones. Adding more reviewers increases API cost and coordination overhead with diminishing returns — the biggest gain is going from 1→2, not 2→4.
 >
-> Claude Code's strength is fast, fluid execution; Codex (GPT-5.4 xhigh) is slower but more deliberate and rigorous in critique. These complementary styles — **speed × rigor** — produce better outcomes than either model talking to itself.
+> Claude Code's strength is fast, fluid execution; Codex (qwen3.7-plus medium) is slower but more deliberate and rigorous in critique. These complementary styles — **speed × rigor** — produce better outcomes than either model talking to itself.
 
 ## 📢 What's New
 
@@ -34,7 +34,7 @@ Custom [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skills for 
 - **2026-03-20** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🚀 **[Antigravity adaptation guide](docs/ANTIGRAVITY_ADAPTATION.md)** — use ARIS skills in [Google Antigravity](https://antigravity.google/) (agent-first IDE). Native `SKILL.md` support, dual model, MCP config, EN + [CN](docs/ANTIGRAVITY_ADAPTATION_CN.md). Community contribution by [@PeppaPigw](https://github.com/PeppaPigw)
 - **2026-03-20** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🖥️ **[Trae adaptation guide](docs/TRAE_ARIS_RUNBOOK_EN.md)** — use ARIS skills in [Trae](https://www.trae.ai/) (ByteDance AI IDE), EN + CN guides. Community contribution by [@Prometheus-cotigo](https://github.com/Prometheus-cotigo). 🔢 **[`formula-derivation`](skills/formula-derivation/SKILL.md)** — research formula development and verification. Community contribution by [@Falling-Flower](https://github.com/Falling-Flower)
 - **2026-03-19** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🖼️ **[`paper-poster`](skills/paper-poster/SKILL.md)** — Conference poster (tcbposter → A0/A1 PDF + PPTX + SVG). Venue colors, visual review, Codex review. Community contribution by [@dengzhe-hou](https://github.com/dengzhe-hou)
-- **2026-03-19** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🔗 **Workflow 1.5 upgraded** — `/experiment-bridge` now includes **GPT-5.4 cross-model code review** before GPU deployment (`code review: true` by default). 📊 **W&B fix** — real `wandb.Api()` calls
+- **2026-03-19** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🔗 **Workflow 1.5 upgraded** — `/experiment-bridge` now includes **qwen3.7-plus cross-model code review** before GPU deployment (`code review: true` by default). 📊 **W&B fix** — real `wandb.Api()` calls
 - **2026-03-18** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🎤 **[`paper-slides`](skills/paper-slides/SKILL.md)** — Conference presentation slides (beamer → PDF + PPTX) with speaker notes, talk script, and Q&A prep. 4 talk types (oral/spotlight/poster/invited). Community contribution by [@dengzhe-hou](https://github.com/dengzhe-hou)
 - **2026-03-18** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🔁 **[Codex + Claude reviewer bridge](docs/CODEX_CLAUDE_REVIEW_GUIDE.md)** — Codex executes, Claude reviews via local `claude-review` MCP bridge. Community contribution by [@loujc](https://github.com/loujc)
 - **2026-03-18** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🖱️ **[Cursor adaptation guide](docs/CURSOR_ADAPTATION.md)** — use ARIS skills in [Cursor](https://www.cursor.com/) with `@`-reference, MCP setup, and state file recovery. Community contribution by [@YecanLee](https://github.com/YecanLee)
@@ -69,7 +69,7 @@ cp -r Auto-claude-code-research-in-sleep/skills/* ~/.claude/skills/
 
 # 2. Set up Codex MCP (for review skills)
 npm install -g @openai/codex
-codex setup                    # set model to gpt-5.4 when prompted
+codex setup                    # set model to qwen3.7-plus when prompted
 claude mcp add codex -s user -- codex mcp-server
 
 # 3. Use in Claude Code
@@ -92,7 +92,7 @@ claude
 > | `sources` | `all` | Which literature sources to search: `zotero`, `obsidian`, `local`, `web`, or `all` (comma-separated) |
 > | `arxiv download` | `false` | Download top relevant arXiv PDFs during literature survey. When `false`, only fetches metadata (title, abstract, authors) |
 > | `DBLP_BIBTEX` | `true` | Fetch real BibTeX from [DBLP](https://dblp.org)/[CrossRef](https://www.crossref.org) instead of LLM-generated entries. Eliminates hallucinated citations. Zero install |
-> | `code review` | `true` | GPT-5.4 xhigh reviews experiment code before GPU deployment. Set `false` to skip |
+> | `code review` | `true` | qwen3.7-plus medium reviews experiment code before GPU deployment. Set `false` to skip |
 > | `wandb` | `false` | Auto-add W&B logging to experiment scripts. Set `true` + configure `wandb_project` in CLAUDE.md. `/monitor-experiment` pulls training curves from W&B |
 > | `illustration` | `gemini` | AI illustration in Workflow 3: `gemini` (default, needs `GEMINI_API_KEY`), `mermaid` (free), or `false` (skip) |
 > | `venue` | `ICLR` | Target venue: `ICLR`, `NeurIPS`, `ICML`, `CVPR`, `ACL`, `AAAI`, `ACM`. Determines LaTeX style file and page limit |
@@ -106,7 +106,7 @@ claude
 > /research-pipeline "your topic" — AUTO_PROCEED: false, human checkpoint: true  # combine options
 > ```
 
-> **Important:** Codex MCP uses the model from `~/.codex/config.toml`, not from skill files. Make sure it says `model = "gpt-5.4"` (recommended). Other options: `gpt-5.3-codex`, `gpt-5.2-codex`, `o3`. Run `codex setup` or edit the file directly.
+> **Important:** Codex MCP uses the model from `~/.codex/config.toml`, not from skill files. Make sure it says `model = "qwen3.7-plus"` (recommended). Other options: `gpt-5.3-codex`, `gpt-5.2-codex`, `o3`. Run `codex setup` or edit the file directly.
 
 > **Want Codex to execute but Claude Code to review?** See [`docs/CODEX_CLAUDE_REVIEW_GUIDE.md`](docs/CODEX_CLAUDE_REVIEW_GUIDE.md). That path installs the base `skills/skills-codex/*`, then overlays `skills/skills-codex-claude-review/*`, and routes review-heavy skills through the local `claude-review` MCP bridge.
 
@@ -119,10 +119,10 @@ See [full setup guide](#%EF%B8%8F-setup) for details and [alternative model comb
 - 💡 **Idea discovery** — literature survey → brainstorm 8-12 ideas → novelty check → GPU pilot experiments → ranked report
 - 🔄 **Auto review loop** — 4-round autonomous review, 5/10 → 7.5/10 overnight with 20+ GPU experiments
 - 📝 **Paper writing** — narrative → outline → figures → LaTeX → PDF → auto-review (4/10 → 8.5/10), one command. Anti-hallucination citations via [DBLP](https://dblp.org)/[CrossRef](https://www.crossref.org)
-- 🤖 **Cross-model collaboration** — Claude Code executes, GPT-5.4 xhigh reviews. Adversarial, not self-play
+- 🤖 **Cross-model collaboration** — Claude Code executes, qwen3.7-plus medium reviews. Adversarial, not self-play
 - 📝 **Peer review** — review others' papers as a conference reviewer, with structured scoring and meta-review
-- 🖥️ **Review-driven experiments** — when GPT-5.4 says "run an ablation", Claude Code automatically writes the script, rsyncs to your GPU server, launches in screen, collects results, and folds them back into the paper. Just configure your server in `CLAUDE.md` ([setup guide](#%EF%B8%8F-gpu-server-setup-for-auto-experiments))
-- 🔀 **Flexible models** — default Claude × GPT-5.4, also supports [GLM, MiniMax, Kimi, LongCat, DeepSeek, etc.](#-alternative-model-combinations) — no Claude or OpenAI API required
+- 🖥️ **Review-driven experiments** — when qwen3.7-plus says "run an ablation", Claude Code automatically writes the script, rsyncs to your GPU server, launches in screen, collects results, and folds them back into the paper. Just configure your server in `CLAUDE.md` ([setup guide](#%EF%B8%8F-gpu-server-setup-for-auto-experiments))
+- 🔀 **Flexible models** — default Claude × qwen3.7-plus, also supports [GLM, MiniMax, Kimi, LongCat, DeepSeek, etc.](#-alternative-model-combinations) — no Claude or OpenAI API required
 - 🛑 **Human-in-the-loop** — configurable checkpoints at key decisions. `AUTO_PROCEED=true` for full autopilot, `false` to approve each step
 - 📱 **[Feishu/Lark notifications](#-feishulark-integration-optional)** — three modes: **off (default, strongly recommended for most users)**, push-only (webhook, mobile alerts), interactive (approve/reject from Feishu). Zero impact when unconfigured
 
@@ -253,12 +253,12 @@ These skills compose into a full research lifecycle. The four workflows can be u
 Don't have a concrete idea yet? Just give a research direction — `/idea-discovery` handles the rest:
 
 1. 📚 **Survey** the landscape (recent papers, open problems, recurring limitations)
-2. 🧠 **Brainstorm** 8-12 concrete ideas via GPT-5.4 xhigh
+2. 🧠 **Brainstorm** 8-12 concrete ideas via qwen3.7-plus medium
 3. 🔍 **Filter** by feasibility, compute cost, and quick novelty search
 4. 🛡️ **Validate** top ideas with deep novelty check + devil's advocate review
 5. 🧪 **Pilot** top 2-3 ideas in parallel on different GPUs (30 min - 2 hr each)
 6. 🏆 **Rank** by empirical signal — ideas with positive pilot results rise to the top
-7. 🔬 **Refine** the top idea into a problem-anchored proposal via iterative GPT-5.4 review
+7. 🔬 **Refine** the top idea into a problem-anchored proposal via iterative qwen3.7-plus review
 8. 🧪 **Plan** claim-driven experiments with ablations, budgets, and run order
 
 The output is a ranked `IDEA_REPORT.md` plus a refined proposal (`refine-logs/FINAL_PROPOSAL.md`) and experiment plan (`refine-logs/EXPERIMENT_PLAN.md`) for the top idea. Dead-end ideas are documented too, saving future exploration.
@@ -333,7 +333,7 @@ Already have an experiment plan (from Workflow 1 or your own)? `/experiment-brid
 
 1. 📋 **Parse** the experiment plan (`refine-logs/EXPERIMENT_PLAN.md`)
 2. 💻 **Implement** experiment scripts (reuse existing code, add proper argparse/logging/seeds)
-3. 🔍 **GPT-5.4 code review** — cross-model review catches logic bugs before wasting GPU hours (`code review: true` by default)
+3. 🔍 **qwen3.7-plus code review** — cross-model review catches logic bugs before wasting GPU hours (`code review: true` by default)
 4. ✅ **Sanity check** — run the smallest experiment first to catch runtime bugs
 5. 🚀 **Deploy** full experiment suite to GPU via `/run-experiment`
 6. 📊 **Collect** initial results and update the experiment tracker
@@ -346,8 +346,8 @@ Already have an experiment plan (from Workflow 1 or your own)? `/experiment-brid
 │         │                                                        │
 │         ▼                                                        │
 │   ┌──────────┐     ┌──────────┐     ┌──────────┐               │
-│   │ Claude   │────▶│ GPT-5.4  │────▶│ Sanity   │               │
-│   │ Code     │     │ xhigh    │     │ Check    │               │
+│   │ Claude   │────▶│ qwen3.7-plus  │────▶│ Sanity   │               │
+│   │ Code     │     │ medium    │     │ Check    │               │
 │   │ writes   │     │ reviews  │     │ (1 GPU)  │               │
 │   │ code     │     │ code     │     │          │               │
 │   └──────────┘     └──────────┘     └──────────┘               │
@@ -374,7 +374,7 @@ Already have an experiment plan (from Workflow 1 or your own)? `/experiment-brid
 
 > **"Review my paper, fix what's wrong, repeat until it's good."**
 >
-> GPT-5.4 reviews → identifies weaknesses → suggests experiments → Claude Code writes scripts, deploys to GPU, monitors results, rewrites the paper — all while you sleep. Just add your [GPU server config](#%EF%B8%8F-gpu-server-setup-for-auto-experiments) to `CLAUDE.md`.
+> qwen3.7-plus reviews → identifies weaknesses → suggests experiments → Claude Code writes scripts, deploys to GPU, monitors results, rewrites the paper — all while you sleep. Just add your [GPU server config](#%EF%B8%8F-gpu-server-setup-for-auto-experiments) to `CLAUDE.md`.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -405,7 +405,7 @@ Already have an experiment plan (from Workflow 1 or your own)? `/experiment-brid
 
 > 💡 **One-command shortcut:** `/auto-review-loop "your paper topic"` runs this entire workflow automatically.
 >
-> **What to pass as argument?** A short topic or scope is enough — the skill automatically reads your project's narrative docs (`NARRATIVE_REPORT.md`), memory files, experiment results, and prior reviews to build the full context for GPT-5.4. Examples:
+> **What to pass as argument?** A short topic or scope is enough — the skill automatically reads your project's narrative docs (`NARRATIVE_REPORT.md`), memory files, experiment results, and prior reviews to build the full context for qwen3.7-plus. Examples:
 > - `/auto-review-loop "factorized gap in discrete diffusion LMs"` — broad topic, skill finds everything
 > - `/auto-review-loop "focus on Section 3-5, our CRF results are weak"` — targeted scope with hints
 > - `/auto-review-loop` — also works: skill reads project files and infers the topic
@@ -475,7 +475,7 @@ Already have an experiment plan (from Workflow 1 or your own)? `/experiment-brid
 - 📊 **Auto figure generation** — line plots, bar charts, comparison tables from JSON data
 - 🧹 **Clean bib** — automated filtering removes uncited entries (948→215 lines in testing). Real BibTeX from [DBLP](https://dblp.org)/[CrossRef](https://www.crossref.org) instead of LLM-generated entries
 - 📄 **Flexible sections** — 5-8 sections depending on paper type (theory papers often need 7)
-- 🔍 **GPT-5.4 review** — each step optionally reviewed by external LLM
+- 🔍 **qwen3.7-plus review** — each step optionally reviewed by external LLM
 - ✂️ **De-AI polish** — removes AI writing patterns (delve, pivotal, landscape...)
 - 🎯 **Page verification** — `pdftotext`-based precise check that main body fits page limit
 
@@ -487,7 +487,7 @@ Already have an experiment plan (from Workflow 1 or your own)? `/experiment-brid
 
 #### Auto Paper Improvement Loop ✨
 
-After Workflow 3 generates the paper, `/auto-paper-improvement-loop` runs 2 rounds of GPT-5.4 xhigh content review → fix → recompile, plus a final format compliance check, autonomously polishing the paper from rough draft to submission-ready.
+After Workflow 3 generates the paper, `/auto-paper-improvement-loop` runs 2 rounds of qwen3.7-plus medium content review → fix → recompile, plus a final format compliance check, autonomously polishing the paper from rough draft to submission-ready.
 
 **Score Progression (Real Test — ICLR 2026 theory paper):**
 
@@ -553,8 +553,8 @@ After Workflow 3 generates the paper, `/auto-paper-improvement-loop` runs 2 roun
 | 🔭 **[`idea-discovery`](skills/idea-discovery/SKILL.md)** | **Pipeline orchestrator** — runs all skills below in sequence | Yes |
 | ├ 📚 [`research-lit`](skills/research-lit/SKILL.md) | Multi-source literature search ([Zotero](#-zotero-integration-optional) + [Obsidian](#-obsidian-integration-optional) + local PDFs + [arXiv API](#arxiv-integration) + web) | No |
 | ├ 💡 [`idea-creator`](skills/idea-creator/SKILL.md) | Brainstorm 8-12 ideas, filter by feasibility, pilot on GPU, rank by signal | Yes |
-| ├ 🔍 [`novelty-check`](skills/novelty-check/SKILL.md) | Verify idea novelty against recent literature (multi-source + GPT-5.4 cross-check) | Yes |
-| ├ 🔬 [`research-review`](skills/research-review/SKILL.md) | Single-round deep review from external LLM (xhigh reasoning) | Yes |
+| ├ 🔍 [`novelty-check`](skills/novelty-check/SKILL.md) | Verify idea novelty against recent literature (multi-source + qwen3.7-plus cross-check) | Yes |
+| ├ 🔬 [`research-review`](skills/research-review/SKILL.md) | Single-round deep review from external LLM (medium reasoning) | Yes |
 | └ 🧭 **[`research-refine-pipeline`](skills/research-refine-pipeline/SKILL.md)** | Refine method + plan experiments in one chain | Yes |
 | 　├ 🔬 [`research-refine`](skills/research-refine/SKILL.md) | Problem anchor → iterative method refinement (up to 5 rounds, score ≥ 9) | Yes |
 | 　└ 🧪 [`experiment-plan`](skills/experiment-plan/SKILL.md) | Claim-driven experiment roadmap with ablations, budgets, and run order | No |
@@ -707,7 +707,7 @@ To run the auto-review loop without clicking permission prompts, add to `.claude
 <details>
 <summary><h3>🖥️ GPU Server Setup (For Auto-Experiments)</h3></summary>
 
-When GPT-5.4 says "run an ablation study" or "add a baseline comparison", Claude Code automatically writes the experiment script and deploys it to your GPU server. For this to work, Claude Code needs to know your server environment.
+When qwen3.7-plus says "run an ablation study" or "add a baseline comparison", Claude Code automatically writes the experiment script and deploys it to your GPU server. For this to work, Claude Code needs to know your server environment.
 
 Add your server info to your project's `CLAUDE.md`:
 
@@ -722,7 +722,7 @@ Add your server info to your project's `CLAUDE.md`:
 - Use `screen` for background jobs: `screen -dmS exp0 bash -c '...'`
 ```
 
-Claude Code reads this and knows how to SSH in, activate the environment, and launch experiments. GPT-5.4 (the reviewer) only decides **what** experiments to run — Claude Code figures out **how** based on your `CLAUDE.md`.
+Claude Code reads this and knows how to SSH in, activate the environment, and launch experiments. qwen3.7-plus (the reviewer) only decides **what** experiments to run — Claude Code figures out **how** based on your `CLAUDE.md`.
 
 If you are already on the GPU server, you can add the following to your `CLAUDE.md`:
 ```markdown
@@ -1037,7 +1037,7 @@ Skills are plain Markdown files. Fork and customize:
 | `ARXIV_DOWNLOAD` | false | Download top arXiv PDFs after literature search | → `idea-discovery` → `research-lit` |
 | `HUMAN_CHECKPOINT` | false | When `true`, pause after each review round for approval | → `auto-review-loop` |
 | `WANDB` | false | Auto-add W&B logging to experiments | → `experiment-bridge` → `run-experiment` |
-| `CODE_REVIEW` | true | GPT-5.4 reviews experiment code before deployment | → `experiment-bridge` |
+| `CODE_REVIEW` | true | qwen3.7-plus reviews experiment code before deployment | → `experiment-bridge` |
 | `BASE_REPO` | false | GitHub repo URL to clone as base codebase for experiments | → `experiment-bridge` |
 | `ILLUSTRATION` | `gemini` | AI illustration: `gemini` (default), `mermaid` (free), or `false` (skip) | → `paper-writing` |
 
@@ -1068,7 +1068,7 @@ Override inline: `/idea-discovery "topic" — pilot budget: 4h per idea, sources
 
 | Constant | Default | Description |
 |----------|---------|-------------|
-| `CODE_REVIEW` | true | GPT-5.4 xhigh reviews code before deployment. Catches logic bugs before wasting GPU hours |
+| `CODE_REVIEW` | true | qwen3.7-plus medium reviews code before deployment. Catches logic bugs before wasting GPU hours |
 | `AUTO_DEPLOY` | true | Automatically deploy experiments after implementation + review. Set `false` to manually inspect |
 | `SANITY_FIRST` | true | Run smallest experiment first to catch setup bugs before full deployment |
 | `MAX_PARALLEL_RUNS` | 4 | Maximum experiments to deploy in parallel (limited by available GPUs) |
@@ -1105,7 +1105,7 @@ Override inline: `/paper-write — target venue: NeurIPS, illustration: mermaid`
 
 | Constant | Default | Description |
 |----------|---------|-------------|
-| `REVIEWER_MODEL` | `gpt-5.4` | OpenAI model used via Codex MCP. Also available: `gpt-5.3-codex`, `gpt-5.2-codex`, `o3`. See [supported models](https://developers.openai.com/codex/models/) for full list. |
+| `REVIEWER_MODEL` | `qwen3.7-plus` | Reviewer model used via Codex MCP. Also available: `gpt-5.3-codex`, `gpt-5.2-codex`, `o3`. See [supported models](https://developers.openai.com/codex/models/) for full list. |
 
 - **Prompt templates** — tailor the review persona and evaluation criteria
 - **`allowed-tools`** — restrict or expand what each skill can do
@@ -1114,19 +1114,19 @@ Override inline: `/paper-write — target venue: NeurIPS, illustration: mermaid`
 
 Don't have Claude / OpenAI API access? You can swap in other models — same cross-model architecture, different providers.
 
-> ⭐ **We strongly recommend Claude + GPT-5.4 (default setup).** It's the most tested and reliable combination. Alternative setups work but may require prompt tuning.
+> ⭐ **We strongly recommend Claude + qwen3.7-plus (default setup).** It's the most tested and reliable combination. Alternative setups work but may require prompt tuning.
 
 | | Executor | Reviewer | Need Claude API? | Need OpenAI API? | Guide |
 |---|----------|----------|:---:|:---:|-------|
-| **Default** ⭐ | Claude Opus/Sonnet | GPT-5.4 (Codex MCP) | Yes | Yes | [Quick Start](#-quick-start) |
-| **Alt A** | GLM-5 (Z.ai) | GPT-5.4 (Codex MCP) | No | Yes | [Setup below](#alt-a-glm--gpt) |
+| **Default** ⭐ | Claude Opus/Sonnet | qwen3.7-plus (Codex MCP) | Yes | Yes | [Quick Start](#-quick-start) |
+| **Alt A** | GLM-5 (Z.ai) | qwen3.7-plus (Codex MCP) | No | Yes | [Setup below](#alt-a-glm--gpt) |
 | **Alt B** | GLM-5 (Z.ai) | MiniMax-M2.5 | No | No | [MINIMAX_MCP_GUIDE](docs/MINIMAX_MCP_GUIDE.md) |
 | **Alt C** | Any CC-compatible | Any OpenAI-compatible | No | No | [LLM_API_MIX_MATCH_GUIDE](docs/LLM_API_MIX_MATCH_GUIDE.md) |
 | **Alt D** | Kimi-K2.5 / Qwen3.5+ | GLM-5 / MiniMax-M2.5 | No | No | [ALI_CODING_PLAN_GUIDE](docs/ALI_CODING_PLAN_GUIDE.md) |
 | **Alt E** 🆓 | DeepSeek-V3.1 / Qwen3-Coder | DeepSeek-R1 / Qwen3-235B | No | No | [MODELSCOPE_GUIDE](docs/MODELSCOPE_GUIDE.md) |
-| **Alt F** | Codex CLI (GPT-5.4) | Codex `spawn_agent` (GPT-5.4) | No | Yes | [skills-codex/](skills/skills-codex/) |
+| **Alt F** | Codex CLI (qwen3.7-plus) | Codex `spawn_agent` (qwen3.7-plus) | No | Yes | [skills-codex/](skills/skills-codex/) |
 | **Alt G** 🆕 | Codex CLI | Claude Code CLI (`claude-review` MCP) | No* | No* | [CODEX_CLAUDE_REVIEW_GUIDE](docs/CODEX_CLAUDE_REVIEW_GUIDE.md) |
-| **Alt H** 🆕 | Antigravity (Claude Opus 4.6 / Gemini 3.1 Pro) | GPT-5.4 (Codex MCP) or any via llm-chat | No | Optional | [ANTIGRAVITY_ADAPTATION](docs/ANTIGRAVITY_ADAPTATION.md) |
+| **Alt H** 🆕 | Antigravity (Claude Opus 4.6 / Gemini 3.1 Pro) | qwen3.7-plus (Codex MCP) or any via llm-chat | No | Optional | [ANTIGRAVITY_ADAPTATION](docs/ANTIGRAVITY_ADAPTATION.md) |
 
 **Alt C** supports tested providers: GLM (Z.ai), Kimi (Moonshot), LongCat (Meituan) as executors; DeepSeek, MiniMax as reviewers. Any OpenAI-compatible API should also work via the generic [`llm-chat`](mcp-servers/llm-chat/) MCP server. **Alt D** uses [Alibaba Coding Plan](https://bailian.console.aliyun.com/) — one API key for both executor and reviewer, 4 models included (Kimi, Qwen, GLM, MiniMax). **Alt E** uses [ModelScope](https://www.modelscope.cn/) — **free** (2000 calls/day), one key, no automation restrictions. **Alt G** keeps Codex as executor but swaps the reviewer to Claude Code CLI via the local `claude-review` MCP bridge, with async polling for long paper/review prompts. **Alt H** uses [Google Antigravity](https://antigravity.google/) as the executor with native SKILL.md support — choose Claude Opus 4.6 (Thinking) or Gemini 3.1 Pro (high) as the execution model.
 
@@ -1134,12 +1134,12 @@ Don't have Claude / OpenAI API access? You can swap in other models — same cro
 
 ### Alt A: GLM + GPT
 
-Only replace the executor (Claude → GLM), keep GPT-5.4 as reviewer via Codex MCP.
+Only replace the executor (Claude → GLM), keep qwen3.7-plus as reviewer via Codex MCP.
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
-codex setup   # set model to gpt-5.4
+codex setup   # set model to qwen3.7-plus
 ```
 
 Configure `~/.claude/settings.json`:
@@ -1193,7 +1193,7 @@ claude
 > /analyze-results, /monitor-experiment, /pixel-art
 > ```
 
-> ⚠️ **Note:** Alternative models may behave differently from Claude and GPT-5.4. You may need to tune prompt templates for best results. The core cross-model architecture remains the same.
+> ⚠️ **Note:** Alternative models may behave differently from Claude and qwen3.7-plus. You may need to tune prompt templates for best results. The core cross-model architecture remains the same.
 
 ## 📋 Roadmap
 
@@ -1206,12 +1206,12 @@ claude
 <details>
 <summary>Show 6 more completed items</summary>
 
-- [x] **Configurable REVIEWER_MODEL** — all Codex-dependent skills support custom reviewer model (default `gpt-5.4`, also works with `gpt-5.3-codex`, `gpt-5.2-codex`, `o3`, etc.)
+- [x] **Configurable REVIEWER_MODEL** — all Codex-dependent skills support custom reviewer model (default `qwen3.7-plus`, also works with `gpt-5.3-codex`, `gpt-5.2-codex`, `o3`, etc.)
 - [x] **Local paper library scanning** — `/research-lit` scans local `papers/` and `literature/` directories before external search, leveraging papers you've already read
 - [x] **Idea Discovery pipeline** — `/idea-discovery` orchestrates research-lit → idea-creator → novelty-check → research-review in one command, with pilot experiments on GPU
 - [x] **Full research pipeline** — `/research-pipeline` chains Workflow 1 (idea discovery) → implementation → Workflow 2 (auto-review-loop) end-to-end
-- [x] **Peer review skill** — `/peer-review` for reviewing others' papers as a conference reviewer, with GPT-5.4 meta-review (planned; currently use `/research-review` with a paper PDF)
-- [x] **Cross-model collaboration** — Claude Code (executor) × Codex GPT-5.4 xhigh (reviewer) architecture, avoiding single-model self-play local minima
+- [x] **Peer review skill** — `/peer-review` for reviewing others' papers as a conference reviewer, with qwen3.7-plus meta-review (planned; currently use `/research-review` with a paper PDF)
+- [x] **Cross-model collaboration** — Claude Code (executor) × Codex qwen3.7-plus medium (reviewer) architecture, avoiding single-model self-play local minima
 - [x] **Feishu/Lark integration** — three modes (off/push/interactive), configurable via `~/.claude/feishu.json`. Push-only needs just a webhook URL; interactive uses [feishu-claude-code](https://github.com/joewongjc/feishu-claude-code). Off by default — zero impact on existing workflows. See [setup guide](#-feishulark-integration-optional)
 - [x] **Zotero MCP integration** — `/research-lit` searches Zotero collections, reads annotations/highlights, exports BibTeX. Recommended: [zotero-mcp](https://github.com/54yyyu/zotero-mcp) (1.8k⭐). See [setup guide](#-zotero-integration-optional)
 - [x] **Obsidian integration** — `/research-lit` searches Obsidian vault for research notes, tagged references, wikilinks. Recommended: [mcpvault](https://github.com/bitbonsai/mcpvault) (760⭐) + [obsidian-skills](https://github.com/kepano/obsidian-skills) (13.6k⭐). See [setup guide](#-obsidian-integration-optional)

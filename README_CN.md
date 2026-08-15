@@ -24,7 +24,7 @@
 >
 > 💭 **为什么是两个模型而不是更多？** 两个是打破自我博弈盲区的最小配置，且双人博弈收敛到 Nash 均衡的效率远高于多人博弈。增加更多审稿者只会增加 API 开销和协调成本，边际收益递减——最大的提升来自 1→2，而非 2→4。
 >
-> Claude Code 的优势是快速丝滑的执行，Codex（GPT-5.4 xhigh）虽然慢但审稿更严谨深入。两者**速度 × 严谨**的互补特性，比单模型自我对话效果更好。
+> Claude Code 的优势是快速丝滑的执行，Codex（qwen3.7-plus medium）虽然慢但审稿更严谨深入。两者**速度 × 严谨**的互补特性，比单模型自我对话效果更好。
 
 ## 📢 最近更新
 
@@ -34,7 +34,7 @@
 - **2026-03-20** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🚀 **[Antigravity 适配指南](docs/ANTIGRAVITY_ADAPTATION_CN.md)** — 在 [Google Antigravity](https://antigravity.google/)（Agent-First IDE）中使用 ARIS skills。原生 `SKILL.md` 支持，双模型（Claude Opus 4.6 Thinking / Gemini 3.1 Pro），MCP 配置，[英文](docs/ANTIGRAVITY_ADAPTATION.md) + 中文指南
 - **2026-03-20** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🖥️ **[Trae 适配指南](docs/TRAE_ARIS_RUNBOOK_CN.md)** — 在 [Trae](https://www.trae.ai/)（字节跳动 AI IDE）中使用 ARIS skills，中英文指南。社区贡献 by [@Prometheus-cotigo](https://github.com/Prometheus-cotigo)。🔢 **[`formula-derivation`](skills/formula-derivation/SKILL.md)** — 公式推导与验证。社区贡献 by [@Falling-Flower](https://github.com/Falling-Flower)
 - **2026-03-19** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🖼️ **[`paper-poster`](skills/paper-poster/SKILL.md)** — 会议海报（tcbposter → A0/A1 PDF + PPTX + SVG），会议配色、视觉审查、Codex 评审。社区贡献 by [@dengzhe-hou](https://github.com/dengzhe-hou)
-- **2026-03-19** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🔗 **工作流 1.5 升级** — `/experiment-bridge` 新增 **GPT-5.4 跨模型代码审查**（`code review: true` 默认开启）。📊 **W&B 修正** — 真实 `wandb.Api()` 调用
+- **2026-03-19** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🔗 **工作流 1.5 升级** — `/experiment-bridge` 新增 **qwen3.7-plus 跨模型代码审查**（`code review: true` 默认开启）。📊 **W&B 修正** — 真实 `wandb.Api()` 调用
 - **2026-03-18** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🎤 **[`paper-slides`](skills/paper-slides/SKILL.md)** — 会议演讲幻灯片（beamer → PDF + PPTX），含演讲稿、speaker notes、Q&A 预案。4 种类型（oral/spotlight/poster/invited）。社区贡献 by [@dengzhe-hou](https://github.com/dengzhe-hou)
 - **2026-03-18** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🔁 **[Codex + Claude 审稿 bridge](docs/CODEX_CLAUDE_REVIEW_GUIDE_CN.md)** — Codex 执行、Claude 审稿，通过本地 `claude-review` MCP bridge。社区贡献 by [@loujc](https://github.com/loujc)
 - **2026-03-18** — ![NEW](https://img.shields.io/badge/NEW-red?style=flat-square) 🖱️ **[Cursor 适配指南](docs/CURSOR_ADAPTATION.md)** — 在 [Cursor](https://www.cursor.com/) 中使用 ARIS skills，`@` 引用、MCP 配置、状态文件恢复。社区贡献 by [@YecanLee](https://github.com/YecanLee)
@@ -68,7 +68,7 @@ cp -r Auto-claude-code-research-in-sleep/skills/* ~/.claude/skills/
 
 # 2. 配置 Codex MCP（review 类 skill 需要）
 npm install -g @openai/codex
-codex setup                    # 提示选模型时选 gpt-5.4
+codex setup                    # 提示选模型时选 qwen3.7-plus
 claude mcp add codex -s user -- codex mcp-server
 
 # 3. 在 Claude Code 中使用
@@ -91,7 +91,7 @@ claude
 > | `sources` | `all` | 搜索哪些文献源：`zotero`、`obsidian`、`local`、`web`、`all`（逗号分隔） |
 > | `arxiv download` | `false` | 文献调研时下载最相关的 arXiv PDF。为 `false` 时仅获取元数据（标题、摘要、作者） |
 > | `DBLP_BIBTEX` | `true` | 从 [DBLP](https://dblp.org)/[CrossRef](https://www.crossref.org) 获取真实 BibTeX，替代 LLM 生成。杜绝幻觉引用。零安装 |
-> | `code review` | `true` | GPT-5.4 xhigh 部署前审查实验代码。设 `false` 跳过 |
+> | `code review` | `true` | qwen3.7-plus medium 部署前审查实验代码。设 `false` 跳过 |
 > | `wandb` | `false` | 自动给实验脚本加 W&B 日志。设 `true` + 在 CLAUDE.md 配 `wandb_project`。`/monitor-experiment` 从 W&B 拉训练曲线 |
 > | `illustration` | `gemini` | 工作流 3 AI 作图：`gemini`（默认，需 `GEMINI_API_KEY`，[获取](https://aistudio.google.com/apikey)）、`mermaid`（免费）、`false`（跳过） |
 > | `venue` | `ICLR` | 目标会议：`ICLR`、`NeurIPS`、`ICML`、`CVPR`、`ACL`、`AAAI`、`ACM`。决定 LaTeX 样式和页数限制 |
@@ -105,7 +105,7 @@ claude
 > /research-pipeline "你的课题" — AUTO_PROCEED: false, human checkpoint: true  # 组合使用
 > ```
 
-> **重要：** Codex MCP 使用的模型取决于 `~/.codex/config.toml`，而非 skill 文件中的设置。请确认其中写的是 `model = "gpt-5.4"`（推荐）。其他可用模型：`gpt-5.3-codex`、`gpt-5.2-codex`、`o3`。运行 `codex setup` 或直接编辑该文件。
+> **重要：** Codex MCP 使用的模型取决于 `~/.codex/config.toml`，而非 skill 文件中的设置。请确认其中写的是 `model = "qwen3.7-plus"`（推荐）。其他可用模型：`gpt-5.3-codex`、`gpt-5.2-codex`、`o3`。运行 `codex setup` 或直接编辑该文件。
 
 > **想让 Codex 执行、Claude Code 审稿？** 见 [`docs/CODEX_CLAUDE_REVIEW_GUIDE_CN.md`](docs/CODEX_CLAUDE_REVIEW_GUIDE_CN.md)。这条路径会先安装基础 `skills/skills-codex/*`，再叠加 `skills/skills-codex-claude-review/*`，并通过本地 `claude-review` MCP bridge 转发 review-heavy skill 的审稿请求。
 
@@ -118,10 +118,10 @@ claude
 - 💡 **Idea 发现** — 文献调研 → 头脑风暴 8-12 个 idea → 查新 → GPU pilot 实验 → 排名报告
 - 🔄 **自动 review 循环** — 4 轮自主审稿，一夜从 5/10 提升到 7.5/10，自动跑 20+ 组 GPU 实验
 - 📝 **论文写作** — 研究叙事 → 大纲 → 图表 → LaTeX → PDF → 自动审稿（4/10 → 8.5/10），一条命令。通过 [DBLP](https://dblp.org)/[CrossRef](https://www.crossref.org) 反幻觉引用
-- 🤖 **跨模型协作** — Claude Code 执行，GPT-5.4 xhigh 审稿。对抗式而非自我博弈
+- 🤖 **跨模型协作** — Claude Code 执行，qwen3.7-plus medium 审稿。对抗式而非自我博弈
 - 📝 **Peer Review** — 以审稿人视角审阅他人论文，结构化打分 + meta-review
-- 🖥️ **审稿驱动实验** — GPT-5.4 说"跑个消融实验"，Claude Code 自动写脚本、rsync 到服务器、screen 启动、收结果、写回论文。只需在 `CLAUDE.md` 里配好服务器信息（[配置指南](#%EF%B8%8F-gpu-服务器配置自动实验用)）
-- 🔀 **灵活模型** — 默认 Claude × GPT-5.4，也支持 [GLM、MiniMax、Kimi、LongCat、DeepSeek 等](#-替代模型组合)——无需 Claude 或 OpenAI API
+- 🖥️ **审稿驱动实验** — qwen3.7-plus 说"跑个消融实验"，Claude Code 自动写脚本、rsync 到服务器、screen 启动、收结果、写回论文。只需在 `CLAUDE.md` 里配好服务器信息（[配置指南](#%EF%B8%8F-gpu-服务器配置自动实验用)）
+- 🔀 **灵活模型** — 默认 Claude × qwen3.7-plus，也支持 [GLM、MiniMax、Kimi、LongCat、DeepSeek 等](#-替代模型组合)——无需 Claude 或 OpenAI API
 - 🛑 **Human-in-the-loop** — 关键决策点可配置检查点。`AUTO_PROCEED=true` 全自动，`false` 逐步审批
 - 📱 **[飞书通知](#-飞书lark-集成可选)** — 三种模式：**关闭（默认，强烈建议大多数用户保持关闭）**、仅推送（webhook，手机收通知）、双向交互（在飞书里审批/回复）。未配置时零影响
 
@@ -250,12 +250,12 @@ ARIS 全流程完成的真实项目。**如果你也用 ARIS 完成了论文，�
 还没有具体 idea？给一个研究方向就行——`/idea-discovery` 搞定剩下的：
 
 1. 📚 **调研**全景（最新论文、开放问题、反复出现的局限性）
-2. 🧠 **头脑风暴** 8-12 个具体 idea（GPT-5.4 xhigh）
+2. 🧠 **头脑风暴** 8-12 个具体 idea（qwen3.7-plus medium）
 3. 🔍 **初筛**可行性、算力成本、快速查新
 4. 🛡️ **深度验证** top idea（完整查新 + devil's advocate review）
 5. 🧪 **并行 pilot 实验**（top 2-3 个 idea 分别上不同 GPU，30 分钟 - 2 小时）
 6. 🏆 **按实验信号排序**——有正信号的 idea 排前面
-7. 🔬 **精炼方案**——冻结问题锚点，通过 GPT-5.4 迭代 review 打磨方法
+7. 🔬 **精炼方案**——冻结问题锚点，通过 qwen3.7-plus 迭代 review 打磨方法
 8. 🧪 **规划实验**——claim-driven 实验路线图，含 ablation、预算和执行顺序
 
 输出 `IDEA_REPORT.md`（排名后的 idea）+ `refine-logs/FINAL_PROPOSAL.md`（精炼后的方案）+ `refine-logs/EXPERIMENT_PLAN.md`（实验路线图）。失败的 idea 也记录在案，避免重复踩坑。
@@ -291,7 +291,7 @@ ARIS 全流程完成的真实项目。**如果你也用 ARIS 完成了论文，�
 
 1. 📋 **解析**实验计划（`refine-logs/EXPERIMENT_PLAN.md`）
 2. 💻 **实现**实验脚本（复用已有代码，加 argparse/logging/seed）
-3. 🔍 **GPT-5.4 代码审查** — 跨模型 review 在浪费 GPU 前抓逻辑 bug（`code review: true` 默认开启）
+3. 🔍 **qwen3.7-plus 代码审查** — 跨模型 review 在浪费 GPU 前抓逻辑 bug（`code review: true` 默认开启）
 4. ✅ **Sanity check** — 先跑最小实验，发现运行时 bug
 5. 🚀 **部署**完整实验到 GPU（`/run-experiment`）
 6. 📊 **收集**初始结果，更新实验 tracker
@@ -304,8 +304,8 @@ ARIS 全流程完成的真实项目。**如果你也用 ARIS 完成了论文，�
 │         │                                                        │
 │         ▼                                                        │
 │   ┌──────────┐     ┌──────────┐     ┌──────────┐               │
-│   │ Claude   │────▶│ GPT-5.4  │────▶│ Sanity   │               │
-│   │ Code     │     │ xhigh    │     │ Check    │               │
+│   │ Claude   │────▶│ qwen3.7-plus  │────▶│ Sanity   │               │
+│   │ Code     │     │ medium    │     │ Check    │               │
 │   │ 写代码    │     │ 审查代码  │     │ (1 GPU)  │               │
 │   └──────────┘     └──────────┘     └──────────┘               │
 │                                          │                       │
@@ -330,13 +330,13 @@ ARIS 全流程完成的真实项目。**如果你也用 ARIS 完成了论文，�
 
 > "帮我 review 论文，修复问题，循环到通过为止。"
 >
-> GPT-5.4 审稿 → 定位弱点 → 建议实验 → Claude Code 自动写脚本、部署到 GPU、监控结果、改写论文——你睡觉就行。只需在 `CLAUDE.md` 里配好[GPU 服务器信息](#%EF%B8%8F-gpu-服务器配置自动实验用)。
+> qwen3.7-plus 审稿 → 定位弱点 → 建议实验 → Claude Code 自动写脚本、部署到 GPU、监控结果、改写论文——你睡觉就行。只需在 `CLAUDE.md` 里配好[GPU 服务器信息](#%EF%B8%8F-gpu-服务器配置自动实验用)。
 
 **涉及 Skills：** `auto-review-loop` + `research-review` + `novelty-check` + `run-experiment` + `analyze-results` + `monitor-experiment`
 
 > 💡 **一键调用：** `/auto-review-loop "你的论文主题"` 自动跑完整个工作流 2。
 >
-> **传什么参数？** 简短的主题或范围就够——skill 会自动读取项目中的叙事文档（`NARRATIVE_REPORT.md`）、memory 文件、实验结果和历史 review，为 GPT-5.4 组装完整上下文。示例：
+> **传什么参数？** 简短的主题或范围就够——skill 会自动读取项目中的叙事文档（`NARRATIVE_REPORT.md`）、memory 文件、实验结果和历史 review，为 qwen3.7-plus 组装完整上下文。示例：
 > - `/auto-review-loop "离散扩散语言模型的 factorized gap"` — 宽泛主题，skill 自动搜集
 > - `/auto-review-loop "重点看第 3-5 节，CRF 结果偏弱"` — 指定范围 + 提示
 > - `/auto-review-loop` — 也行：skill 读项目文件自动推断主题
@@ -396,7 +396,7 @@ NARRATIVE_REPORT.md ──► /paper-plan ──► /paper-figure ──► /pap
 - 📊 **自动图表生成** — 从 JSON 数据生成折线图、柱状图、对比表
 - 🧹 **Bib 自动清理** — 过滤未引用条目（实测 948→215 行）。通过 [DBLP](https://dblp.org)/[CrossRef](https://www.crossref.org) 获取真实 BibTeX，替代 LLM 生成
 - 📄 **灵活节数** — 5-8 节按论文类型选择（理论论文常需 7 节）
-- 🔍 **GPT-5.4 审稿** — 每步可选外部 LLM 审查
+- 🔍 **qwen3.7-plus 审稿** — 每步可选外部 LLM 审查
 - ✂️ **De-AI 打磨** — 去除 AI 写作痕迹（delve、pivotal、landscape…）
 - 🎯 **精确页数验证** — 基于 `pdftotext` 定位 Conclusion 结束位置
 
@@ -406,7 +406,7 @@ NARRATIVE_REPORT.md ──► /paper-plan ──► /paper-figure ──► /pap
 
 #### 论文自动润色循环 ✨
 
-工作流 3 生成论文后，`/auto-paper-improvement-loop` 自动跑 2 轮 GPT-5.4 xhigh 内容审稿 → 修复 → 重编译，外加一轮格式合规检查，将粗稿自动提升到可投稿质量。
+工作流 3 生成论文后，`/auto-paper-improvement-loop` 自动跑 2 轮 qwen3.7-plus medium 内容审稿 → 修复 → 重编译，外加一轮格式合规检查，将粗稿自动提升到可投稿质量。
 
 **分数变化（实测 — ICLR 2026 理论论文）：**
 
@@ -472,8 +472,8 @@ NARRATIVE_REPORT.md ──► /paper-plan ──► /paper-figure ──► /pap
 | 🔭 **[`idea-discovery`](skills/idea-discovery/SKILL.md)** | **流水线编排** — 按顺序调用以下全部 skill | 是 |
 | ├ 📚 [`research-lit`](skills/research-lit/SKILL.md) | 多源文献搜索（[Zotero](#-zotero-集成可选) + [Obsidian](#-obsidian-集成可选) + 本地 PDF + [arXiv API](#arxiv-集成) + 网络） | 否 |
 | ├ 💡 [`idea-creator`](skills/idea-creator/SKILL.md) | 头脑风暴 8-12 个 idea，按可行性筛选，GPU pilot，按信号排序 | 是 |
-| ├ 🔍 [`novelty-check`](skills/novelty-check/SKILL.md) | 多源查新 + GPT-5.4 交叉验证 | 是 |
-| ├ 🔬 [`research-review`](skills/research-review/SKILL.md) | 单轮深度评审（外部 LLM，xhigh 推理） | 是 |
+| ├ 🔍 [`novelty-check`](skills/novelty-check/SKILL.md) | 多源查新 + qwen3.7-plus 交叉验证 | 是 |
+| ├ 🔬 [`research-review`](skills/research-review/SKILL.md) | 单轮深度评审（外部 LLM，medium 推理） | 是 |
 | └ 🧭 **[`research-refine-pipeline`](skills/research-refine-pipeline/SKILL.md)** | 方法精炼 + 实验规划一条龙 | 是 |
 | 　├ 🔬 [`research-refine`](skills/research-refine/SKILL.md) | 冻结问题锚点 → 迭代精炼方法（最多 5 轮，≥9 分停） | 是 |
 | 　└ 🧪 [`experiment-plan`](skills/experiment-plan/SKILL.md) | Claim-driven 实验路线图，含 ablation、预算和执行顺序 | 否 |
@@ -597,7 +597,7 @@ cp -r skills/experiment-bridge ~/.claude/skills/
 <details>
 <summary><h3>🖥️ GPU 服务器配置（自动跑实验用）</h3></summary>
 
-当 GPT-5.4 审稿说"需要补一个消融实验"或"加一个 baseline 对比"时，Claude Code 会自动写实验脚本并部署到你的 GPU 服务器。为此，Claude Code 需要知道你的服务器环境。
+当 qwen3.7-plus 审稿说"需要补一个消融实验"或"加一个 baseline 对比"时，Claude Code 会自动写实验脚本并部署到你的 GPU 服务器。为此，Claude Code 需要知道你的服务器环境。
 
 在项目的 `CLAUDE.md` 中添加服务器信息：
 
@@ -612,7 +612,7 @@ cp -r skills/experiment-bridge ~/.claude/skills/
 - 后台运行用 `screen`：`screen -dmS exp0 bash -c '...'`
 ```
 
-Claude Code 读到这些就知道怎么 SSH、激活环境、启动实验。GPT-5.4（审稿人）只决定**做什么实验**——Claude Code 根据你的 `CLAUDE.md` 搞定**怎么跑**。
+Claude Code 读到这些就知道怎么 SSH、激活环境、启动实验。qwen3.7-plus（审稿人）只决定**做什么实验**——Claude Code 根据你的 `CLAUDE.md` 搞定**怎么跑**。
 
 如果你已经在 GPU 服务器上，可以添加以下到你的 `CLAUDE.md`：
 ```markdown
@@ -927,7 +927,7 @@ Skills 就是普通的 Markdown 文件，fork 后随意改：
 | `ARXIV_DOWNLOAD` | false | 搜索后自动下载最相关的 arXiv PDF | → `idea-discovery` → `research-lit` |
 | `HUMAN_CHECKPOINT` | false | 设为 `true` 时每轮 review 后暂停等待确认 | → `auto-review-loop` |
 | `WANDB` | false | 自动给实验脚本加 W&B 日志 | → `experiment-bridge` → `run-experiment` |
-| `CODE_REVIEW` | true | GPT-5.4 部署前审查实验代码 | → `experiment-bridge` |
+| `CODE_REVIEW` | true | qwen3.7-plus 部署前审查实验代码 | → `experiment-bridge` |
 | `BASE_REPO` | false | GitHub 仓库 URL，克隆作为实验基础代码 | → `experiment-bridge` |
 | `ILLUSTRATION` | `gemini` | AI 作图：`gemini`（默认，需 API key）、`mermaid`（免费）、`false`（跳过） | → `paper-writing` |
 
@@ -958,7 +958,7 @@ Skills 就是普通的 Markdown 文件，fork 后随意改：
 
 | 常量 | 默认值 | 说明 |
 |------|--------|------|
-| `CODE_REVIEW` | true | GPT-5.4 xhigh 部署前审查代码。在浪费 GPU 前抓逻辑 bug |
+| `CODE_REVIEW` | true | qwen3.7-plus medium 部署前审查代码。在浪费 GPU 前抓逻辑 bug |
 | `AUTO_DEPLOY` | true | 实现 + 审查后自动部署。设 `false` 可手动检查 |
 | `BASE_REPO` | false | GitHub 仓库 URL，克隆作为实验基础代码 |
 | `SANITY_FIRST` | true | 先跑最小实验，提前发现 bug |
@@ -995,7 +995,7 @@ Skills 就是普通的 Markdown 文件，fork 后随意改：
 
 | 常量 | 默认值 | 说明 |
 |------|--------|------|
-| `REVIEWER_MODEL` | `gpt-5.4` | Codex MCP 调用的 OpenAI 模型。其他可选：`gpt-5.3-codex`、`gpt-5.2-codex`、`o3`。完整列表见 [supported models](https://developers.openai.com/codex/models/) |
+| `REVIEWER_MODEL` | `qwen3.7-plus` | Codex MCP 调用的审查模型。其他可选：`gpt-5.3-codex`、`gpt-5.2-codex`、`o3`。完整列表见 [supported models](https://developers.openai.com/codex/models/) |
 
 - **Prompt 模板** — 定制评审人格和评估标准
 - **`allowed-tools`** — 限制或扩展每个 skill 可用的工具
@@ -1004,19 +1004,19 @@ Skills 就是普通的 Markdown 文件，fork 后随意改：
 
 没有 Claude / OpenAI API？可以换用其他模型——同样的跨模型架构，不同的提供商。
 
-> ⭐ **强烈推荐使用 Claude + GPT-5.4（默认组合）。** 这是经过最充分测试、最稳定的组合。替代方案可用但可能需要调整 prompt。
+> ⭐ **强烈推荐使用 Claude + qwen3.7-plus（默认组合）。** 这是经过最充分测试、最稳定的组合。替代方案可用但可能需要调整 prompt。
 
 | | 执行者 | 审稿人 | 需要 Claude API？ | 需要 OpenAI API？ | 配置指南 |
 |---|--------|--------|:---:|:---:|---------|
-| **默认** ⭐ | Claude Opus/Sonnet | GPT-5.4（Codex MCP） | 是 | 是 | [快速开始](#-快速开始) |
-| **方案 A** | GLM-5（Z.ai） | GPT-5.4（Codex MCP） | 否 | 是 | [配置见下](#方案-a-glm--gpt) |
+| **默认** ⭐ | Claude Opus/Sonnet | qwen3.7-plus（Codex MCP） | 是 | 是 | [快速开始](#-快速开始) |
+| **方案 A** | GLM-5（Z.ai） | qwen3.7-plus（Codex MCP） | 否 | 是 | [配置见下](#方案-a-glm--gpt) |
 | **方案 B** | GLM-5（Z.ai） | MiniMax-M2.5 | 否 | 否 | [MINIMAX_MCP_GUIDE](docs/MINIMAX_MCP_GUIDE.md) |
 | **方案 C** | 任意 CC 兼容 | 任意 OpenAI 兼容 | 否 | 否 | [LLM_API_MIX_MATCH_GUIDE](docs/LLM_API_MIX_MATCH_GUIDE.md) |
 | **方案 D** | Kimi-K2.5 / Qwen3.5+ | GLM-5 / MiniMax-M2.5 | 否 | 否 | [ALI_CODING_PLAN_GUIDE](docs/ALI_CODING_PLAN_GUIDE.md) |
 | **方案 E** 🆓 | DeepSeek-V3.1 / Qwen3-Coder | DeepSeek-R1 / Qwen3-235B | 否 | 否 | [MODELSCOPE_GUIDE](docs/MODELSCOPE_GUIDE.md) |
-| **方案 F** | Codex CLI (GPT-5.4) | Codex `spawn_agent` (GPT-5.4) | 否 | 是 | [skills-codex/](skills/skills-codex/) |
+| **方案 F** | Codex CLI (qwen3.7-plus) | Codex `spawn_agent` (qwen3.7-plus) | 否 | 是 | [skills-codex/](skills/skills-codex/) |
 | **方案 G** 🆕 | Codex CLI | Claude Code CLI（`claude-review` MCP） | 否* | 否* | [CODEX_CLAUDE_REVIEW_GUIDE_CN](docs/CODEX_CLAUDE_REVIEW_GUIDE_CN.md) |
-| **方案 H** 🆕 | Antigravity（Claude Opus 4.6 / Gemini 3.1 Pro） | GPT-5.4（Codex MCP）或 llm-chat | 否 | 可选 | [ANTIGRAVITY_ADAPTATION_CN](docs/ANTIGRAVITY_ADAPTATION_CN.md) |
+| **方案 H** 🆕 | Antigravity（Claude Opus 4.6 / Gemini 3.1 Pro） | qwen3.7-plus（Codex MCP）或 llm-chat | 否 | 可选 | [ANTIGRAVITY_ADAPTATION_CN](docs/ANTIGRAVITY_ADAPTATION_CN.md) |
 
 **方案 C** 已适配的提供商：GLM（Z.ai）、Kimi（Moonshot）、LongCat（美团）作为执行器；DeepSeek、MiniMax 作为审查器。任何 OpenAI 兼容 API 理论上均可通过通用 [`llm-chat`](mcp-servers/llm-chat/) MCP 服务器接入。**方案 D** 使用[阿里百炼 Coding Plan](https://bailian.console.aliyun.com/)——一个 API Key 包含 4 款模型（Kimi、Qwen、GLM、MiniMax），双端点配置。**方案 E** 使用 [ModelScope（魔搭社区）](https://www.modelscope.cn/)——**免费**（2000 次/天），一个 Key，无自动化限制。**方案 G** 保持 Codex 作为执行者，但把审稿人切换成通过本地 `claude-review` MCP bridge 暴露出来的 Claude Code CLI，并用异步轮询处理长论文 / 长 review prompt。**方案 H** 使用 [Google Antigravity](https://antigravity.google/) 作为执行器，原生支持 SKILL.md——可选 Claude Opus 4.6（Thinking）或 Gemini 3.1 Pro（high）作为执行模型。
 
@@ -1024,12 +1024,12 @@ Skills 就是普通的 Markdown 文件，fork 后随意改：
 
 ### 方案 A: GLM + GPT
 
-只替换执行者（Claude → GLM），保留 GPT-5.4 通过 Codex MCP 审稿。
+只替换执行者（Claude → GLM），保留 qwen3.7-plus 通过 Codex MCP 审稿。
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
-codex setup   # 提示选模型时选 gpt-5.4
+codex setup   # 提示选模型时选 qwen3.7-plus
 ```
 
 配置 `~/.claude/settings.json`：
@@ -1083,7 +1083,7 @@ claude
 > /analyze-results, /monitor-experiment, /pixel-art
 > ```
 
-> ⚠️ **注意：** 替代模型的行为可能与 Claude 和 GPT-5.4 有所不同。你可能需要微调 prompt 模板以获得最佳效果。核心的跨模型架构不变。
+> ⚠️ **注意：** 替代模型的行为可能与 Claude 和 qwen3.7-plus 有所不同。你可能需要微调 prompt 模板以获得最佳效果。核心的跨模型架构不变。
 
 ## 📋 Roadmap
 
@@ -1096,13 +1096,13 @@ claude
 <details>
 <summary>展开 6 项更早完成的功能</summary>
 
-- [x] **可配置 REVIEWER_MODEL** — 所有依赖 Codex 的 skill 支持自定义审稿模型（默认 `gpt-5.4`，也支持 `gpt-5.3-codex`、`gpt-5.2-codex`、`o3` 等）
+- [x] **可配置 REVIEWER_MODEL** — 所有依赖 Codex 的 skill 支持自定义审稿模型（默认 `qwen3.7-plus`，也支持 `gpt-5.3-codex`、`gpt-5.2-codex`、`o3` 等）
 
 - [x] **本地论文库扫描** — `/research-lit` 在外部搜索前先扫描本地 `papers/` 和 `literature/` 目录，复用已读论文
 - [x] **Idea Discovery 流水线** — `/idea-discovery` 一键编排 research-lit → idea-creator → novelty-check → research-review，含 GPU pilot 实验
 - [x] **全流程研究管线** — `/research-pipeline` 串联 Workflow 1（idea discovery）→ 实现 → Workflow 2（auto-review-loop），端到端
-- [x] **Peer Review skill** — `/peer-review` 以审稿人视角审阅他人论文，含 GPT-5.4 meta-review（规划中；目前可用 `/research-review` + 论文 PDF 实现）
-- [x] **跨模型协作架构** — Claude Code（执行者）× Codex GPT-5.4 xhigh（审稿者），避免单模型自我博弈的局部最优
+- [x] **Peer Review skill** — `/peer-review` 以审稿人视角审阅他人论文，含 qwen3.7-plus meta-review（规划中；目前可用 `/research-review` + 论文 PDF 实现）
+- [x] **跨模型协作架构** — Claude Code（执行者）× Codex qwen3.7-plus medium（审稿者），避免单模型自我博弈的局部最优
 - [x] **飞书集成** — 三种模式（关闭/推送/交互），通过 `~/.claude/feishu.json` 配置。推送只需 webhook URL；交互用 [feishu-claude-code](https://github.com/joewongjc/feishu-claude-code)。默认关闭——对已有工作流零影响。见[设置指南](#-飞书lark-集成可选)
 - [x] **Zotero MCP 集成** — `/research-lit` 搜索 Zotero 文献库、读取标注/高亮、导出 BibTeX。推荐：[zotero-mcp](https://github.com/54yyyu/zotero-mcp)（1.8k⭐）。见[设置指南](#-zotero-集成可选)
 - [x] **Obsidian 集成** — `/research-lit` 搜索 Obsidian vault 中的研究笔记、标签引用、wikilinks。推荐：[mcpvault](https://github.com/bitbonsai/mcpvault)（760⭐）+ [obsidian-skills](https://github.com/kepano/obsidian-skills)（13.6k⭐）。见[设置指南](#-obsidian-集成可选)

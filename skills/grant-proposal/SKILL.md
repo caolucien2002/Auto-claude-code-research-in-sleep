@@ -34,7 +34,7 @@ Grant proposals argue for **future work** (feasibility + potential), not complet
 
 - **GRANT_TYPE = `KAKENHI`** — Default grant type. Supported: `KAKENHI`, `NSF`, `NSFC`, `ERC`, `DFG`, `SNSF`, `ARC`, `NWO`, `GENERIC`. Override via argument (e.g., `/grant-proposal "topic — NSF"`).
 - **GRANT_SUBTYPE = `auto`** — Sub-type within the grant agency. Examples: KAKENHI `Start-up`/`Wakate`/`Kiban-B`; NSFC `Youth`/`Excellent-Youth`/`Distinguished`/`Overseas`/`Key`; NSF `CAREER`/`CRII`/`Standard`. Auto-detected from argument or defaults to the most common sub-type.
-- **REVIEWER_MODEL = `gpt-5.4`** — Model used via Codex MCP for proposal review. Must be an OpenAI model (e.g., `gpt-5.4`, `o3`, `gpt-4o`).
+- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via Codex MCP for proposal review. Default reviewer model; can be changed to any model supported by your Codex setup.
 - **OUTPUT_FORMAT = `markdown`** — Output format. Supported: `markdown`, `latex`. LaTeX uses grant-specific templates when available.
 - **MAX_REVIEW_ROUNDS = 2** — Maximum external review-revise cycles before finalizing.
 - **OUTPUT_DIR = `grant-proposal/`** — Directory for generated proposal files.
@@ -290,7 +290,7 @@ Timeline: [timeline]
 ```
 
 **What this does:**
-- GPT-5.4 xhigh acts as a grant review panelist (not a paper reviewer)
+- qwen3.7-plus medium acts as a grant review panelist (not a paper reviewer)
 - Evaluates aims independence, narrative arc, risk identification, timeline realism
 - Identifies the single biggest reviewer concern
 - Provides actionable fixes ranked by severity
@@ -306,7 +306,7 @@ Apply structural feedback before proceeding to drafting.
 - Aim 2: [title] — Risk: MEDIUM
 - Aim 3: [title] — Risk: LOW
 - Timeline: [summary]
-- Reviewer feedback: [key points from GPT-5.4]
+- Reviewer feedback: [key points from qwen3.7-plus]
 
 Proceed to section drafting? Or adjust the structure?
 ```
@@ -419,7 +419,7 @@ Invoke `/research-review` on the complete draft for grant-type-specific evaluati
 ```
 
 **What this does:**
-- GPT-5.4 xhigh acts as a grant review panelist
+- qwen3.7-plus medium acts as a grant review panelist
 - Scores each section 1-5 using agency-specific criteria
 - Identifies fatal flaws and recommends funding/revisions/rejection
 - Provides ranked action items for improvement
@@ -434,7 +434,7 @@ If `/research-review` is invoked (preferred), it handles the Codex call internal
 ```
 mcp__codex__codex-reply:
   threadId: [from Phase 2]
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     Review this complete [GRANT_TYPE] [GRANT_SUBTYPE] proposal draft.
 
@@ -463,7 +463,7 @@ If MAX_REVIEW_ROUNDS > 1 and revisions were applied:
 ```
 mcp__codex__codex-reply:
   threadId: [saved from Round 1]
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     [Round N review of revised [GRANT_TYPE] [GRANT_SUBTYPE] proposal]
 
@@ -541,7 +541,7 @@ Before declaring done:
 - Language: [language]
 - Aims: [N] aims covering [summary]
 - Timeline: [N] years
-- Review score: [summary from GPT-5.4]
+- Review score: [summary from qwen3.7-plus]
 - Output: grant-proposal/GRANT_PROPOSAL.md
 
 Files saved to grant-proposal/. Please review and customize:
@@ -587,7 +587,7 @@ Parameters can be passed inline with `—` separator. They flow to sub-skills wh
 | `max review rounds` | 2 | External review cycles | — |
 | `sources` | all | Literature sources | → `/research-lit` |
 | `arxiv download` | false | Download arXiv PDFs | → `/research-lit` |
-| `reviewer model` | gpt-5.4 | Codex review model | → Codex MCP |
+| `reviewer model` | qwen3.7-plus | Codex review model | → Codex MCP |
 | `auto proceed` | false | Skip checkpoints | — |
 
 ## Composing with Other Skills

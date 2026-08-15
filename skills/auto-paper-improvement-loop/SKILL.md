@@ -1,6 +1,6 @@
 ---
 name: auto-paper-improvement-loop
-description: "Autonomously improve a generated paper via GPT-5.4 xhigh review → implement fixes → recompile, for 2 rounds. Use when user says \"改论文\", \"improve paper\", \"论文润色循环\", \"auto improve\", or wants to iteratively polish a generated paper."
+description: "Autonomously improve a generated paper via qwen3.7-plus medium review → implement fixes → recompile, for 2 rounds. Use when user says \"改论文\", \"improve paper\", \"论文润色循环\", \"auto improve\", or wants to iteratively polish a generated paper."
 argument-hint: [paper-directory]
 allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, Agent, mcp__codex__codex, mcp__codex__codex-reply
 ---
@@ -18,7 +18,7 @@ Unlike `/auto-review-loop` (which iterates on **research** — running experimen
 ## Constants
 
 - **MAX_ROUNDS = 2** — Two rounds of review→fix→recompile. Empirically, Round 1 catches structural issues (4→6/10), Round 2 catches remaining presentation issues (6→7/10). Diminishing returns beyond 2 rounds for writing-only improvements.
-- **REVIEWER_MODEL = `gpt-5.4`** — Model used via Codex MCP for paper review.
+- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via Codex MCP for paper review.
 - **REVIEW_LOG = `PAPER_IMPROVEMENT_LOG.md`** — Cumulative log of all rounds, stored in paper directory.
 - **HUMAN_CHECKPOINT = false** — When `true`, pause after each round's review and present score + weaknesses to the user. The user can approve fixes, provide custom modification instructions, skip specific fixes, or stop early. When `false` (default), runs fully autonomously.
 
@@ -69,12 +69,12 @@ done > /tmp/paper_full_text.txt
 
 ### Step 2: Round 1 Review
 
-Send the full paper text to GPT-5.4 xhigh:
+Send the full paper text to qwen3.7-plus medium:
 
 ```
 mcp__codex__codex:
-  model: gpt-5.4
-  config: {"model_reasoning_effort": "xhigh"}
+  model: qwen3.7-plus
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     You are reviewing a [VENUE] paper. Please provide a detailed, structured review.
 
@@ -154,8 +154,8 @@ Use `mcp__codex__codex-reply` with the saved threadId:
 ```
 mcp__codex__codex-reply:
   threadId: [saved from Round 1]
-  model: gpt-5.4
-  config: {"model_reasoning_effort": "xhigh"}
+  model: qwen3.7-plus
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     [Round 2 update]
 
@@ -239,7 +239,7 @@ Create `PAPER_IMPROVEMENT_LOG.md` in the paper directory:
 ## Round 1 Review & Fixes
 
 <details>
-<summary>GPT-5.4 xhigh Review (Round 1)</summary>
+<summary>qwen3.7-plus medium Review (Round 1)</summary>
 
 [Full raw review text, verbatim]
 
@@ -253,7 +253,7 @@ Create `PAPER_IMPROVEMENT_LOG.md` in the paper directory:
 ## Round 2 Review & Fixes
 
 <details>
-<summary>GPT-5.4 xhigh Review (Round 2)</summary>
+<summary>qwen3.7-plus medium Review (Round 2)</summary>
 
 [Full raw review text, verbatim]
 
@@ -301,7 +301,7 @@ paper/
 - **Large file handling**: If the Write tool fails due to file size, immediately retry using Bash (`cat << 'EOF' > file`) to write in chunks. Do NOT ask the user for permission — just do it silently.
 
 - **Preserve all PDF versions** — user needs to compare progression
-- **Save FULL raw review text** — do not summarize or truncate GPT-5.4 responses
+- **Save FULL raw review text** — do not summarize or truncate qwen3.7-plus responses
 - **Use `mcp__codex__codex-reply`** for Round 2 to maintain conversation context
 - **Always recompile after fixes** — verify 0 errors before proceeding
 - **Do not fabricate experimental results** — synthetic validation must describe methodology, not invent numbers

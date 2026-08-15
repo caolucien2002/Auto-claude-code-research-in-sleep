@@ -20,7 +20,7 @@ Generate a structured, section-by-section paper outline from: **$ARGUMENTS**
 The skill expects one or more of these in the project directory:
 
 1. **NARRATIVE_REPORT.md** or **STORY.md** — research narrative with claims and evidence
-2. **GPT54_AUTO_REVIEW.md** — auto-review loop conclusions
+2. **AUTO_REVIEW.md** — auto-review loop conclusions
 3. **Experiment results** — JSON files in `figures/`, screen logs, tables
 4. **IDEA_REPORT.md** — from idea-discovery pipeline (if applicable)
 

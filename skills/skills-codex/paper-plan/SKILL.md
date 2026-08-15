@@ -9,7 +9,7 @@ Generate a structured, section-by-section paper outline from: **$ARGUMENTS**
 
 ## Constants
 
-- **REVIEWER_MODEL = `gpt-5.4`** — Model used via a secondary Codex agent for outline review. Must be an OpenAI model.
+- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via a secondary Codex agent for outline review. Can be changed to any model supported by your Codex setup.
 - **TARGET_VENUE = `ICLR`** — Default venue. User can override (e.g., `/paper-plan "topic" — venue: NeurIPS`). Supported: `ICLR`, `NeurIPS`, `ICML`.
 - **MAX_PAGES** — Main body page limit, measured from first page to end of Conclusion section (excluding references, appendix, and acknowledgements). ICLR=9, NeurIPS=9, ICML=8.
 
@@ -18,7 +18,7 @@ Generate a structured, section-by-section paper outline from: **$ARGUMENTS**
 The skill expects one or more of these in the project directory:
 
 1. **NARRATIVE_REPORT.md** or **STORY.md** — research narrative with claims and evidence
-2. **GPT54_AUTO_REVIEW.md** — auto-review loop conclusions
+2. **AUTO_REVIEW.md** — auto-review loop conclusions
 3. **Experiment results** — JSON files in `figures/`, screen logs, tables
 4. **IDEA_REPORT.md** — from idea-discovery pipeline (if applicable)
 
@@ -178,12 +178,12 @@ For each section, list required citations:
 
 ### Step 6: Cross-Review with REVIEWER_MODEL
 
-Send the complete outline to GPT-5.4 xhigh for feedback:
+Send the complete outline to qwen3.7-plus medium for feedback:
 
 ```
 spawn_agent:
-  model: gpt-5.4
-  reasoning_effort: xhigh
+  model: qwen3.7-plus
+  reasoning_effort: medium
   message: |
     Review this paper outline for a [VENUE] submission.
     [full outline including Claims-Evidence Matrix]

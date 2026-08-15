@@ -5,13 +5,13 @@ argument-hint: [topic-or-scope]
 allowed-tools: Bash(*), Read, Grep, Glob, Write, Edit, Agent, mcp__codex__codex, mcp__codex__codex-reply
 ---
 
-# Research Review via Codex MCP (xhigh reasoning)
+# Research Review via Codex MCP (medium reasoning)
 
 Get a multi-round critical review of research work from an external LLM with maximum reasoning depth.
 
 ## Constants
 
-- REVIEWER_MODEL = `gpt-5.4` — Model used via Codex MCP. Must be an OpenAI model (e.g., `gpt-5.4`, `o3`, `gpt-4o`)
+- REVIEWER_MODEL = `qwen3.7-plus` — Model used via Codex MCP. Default reviewer model; can be changed to any model supported by your Codex setup
 
 ## Context: $ARGUMENTS
 
@@ -32,11 +32,11 @@ Before calling the external reviewer, compile a comprehensive briefing:
 3. Identify: core claims, methodology, key results, known weaknesses
 
 ### Step 2: Initial Review (Round 1)
-Send a detailed prompt with xhigh reasoning:
+Send a detailed prompt with medium reasoning:
 
 ```
 mcp__codex__codex:
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     [Full research context + specific questions]
     Please act as a senior ML reviewer (NeurIPS/ICML level). Identify:
@@ -80,7 +80,7 @@ Update project memory/notes with key review conclusions.
 
 ## Key Rules
 
-- ALWAYS use `config: {"model_reasoning_effort": "xhigh"}` for reviews
+- ALWAYS use `config: {"model_reasoning_effort": "medium"}` for reviews
 - Send comprehensive context in Round 1 — the external model cannot read your files
 - Be honest about weaknesses — hiding them leads to worse feedback
 - Push back on criticisms you disagree with, but accept valid ones

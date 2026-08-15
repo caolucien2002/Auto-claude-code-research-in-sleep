@@ -14,7 +14,7 @@ Autonomously iterate: review → implement fixes → re-review, until the extern
 - MAX_ROUNDS = 4
 - POSITIVE_THRESHOLD: score >= 6/10, or verdict contains "accept", "sufficient", "ready for submission"
 - REVIEW_DOC: `AUTO_REVIEW.md` in project root (cumulative log)
-- REVIEWER_MODEL = `gpt-5.4` — Model used via a secondary Codex agent. Must be an OpenAI model (e.g., `gpt-5.4`, `o3`, `gpt-4o`)
+- REVIEWER_MODEL = `qwen3.7-plus` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
 - **HUMAN_CHECKPOINT = false** — When `true`, pause after each round's review (Phase B) and present the score + weaknesses to the user. Wait for user input before proceeding to Phase C. The user can: approve the suggested fixes, provide custom modification instructions, skip specific fixes, or stop the loop early. When `false` (default), the loop runs fully autonomously.
 
 > 💡 Override: `/auto-review-loop "topic" — human checkpoint: true`
@@ -67,7 +67,7 @@ Send comprehensive context to the external reviewer:
 
 ```
 spawn_agent:
-  reasoning_effort: xhigh
+  reasoning_effort: medium
   message: |
     [Round N/MAX_ROUNDS of autonomous review loop]
 
@@ -211,7 +211,7 @@ When loop ends (positive assessment or max rounds):
 
 - **Large file handling**: If the Write tool fails due to file size, immediately retry using Bash (`cat << 'EOF' > file`) to write in chunks. Do NOT ask the user for permission — just do it silently.
 
-- ALWAYS use `reasoning_effort: xhigh` for maximum reasoning depth
+- ALWAYS use `reasoning_effort: medium` for maximum reasoning depth
 - Save agent id from first call, use `send_input` for subsequent rounds
 - Be honest — include negative results and failed experiments
 - Do NOT hide weaknesses to game a positive score
@@ -225,7 +225,7 @@ When loop ends (positive assessment or max rounds):
 ```
 send_input:
   id: [saved from round 1]
-  reasoning_effort: xhigh
+  reasoning_effort: medium
   message: |
     [Round N update]
 

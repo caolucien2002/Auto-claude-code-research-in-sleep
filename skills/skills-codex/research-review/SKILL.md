@@ -3,13 +3,13 @@ name: "research-review"
 description: "Get a deep critical review of research from GPT using a secondary Codex agent. Use when user says \"review my research\", \"help me review\", \"get external review\", or wants critical feedback on research ideas, papers, or experimental results."
 ---
 
-# Research Review via a secondary Codex agent (xhigh reasoning)
+# Research Review via a secondary Codex agent (medium reasoning)
 
 Get a multi-round critical review of research work from an external LLM with maximum reasoning depth.
 
 ## Constants
 
-- REVIEWER_MODEL = `gpt-5.4` — Model used via a secondary Codex agent. Must be an OpenAI model (e.g., `gpt-5.4`, `o3`, `gpt-4o`)
+- REVIEWER_MODEL = `qwen3.7-plus` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
 
 ## Context: $ARGUMENTS
 
@@ -27,11 +27,11 @@ Before calling the external reviewer, compile a comprehensive briefing:
 3. Identify: core claims, methodology, key results, known weaknesses
 
 ### Step 2: Initial Review (Round 1)
-Send a detailed prompt with xhigh reasoning:
+Send a detailed prompt with medium reasoning:
 
 ```
 spawn_agent:
-  reasoning_effort: xhigh
+  reasoning_effort: medium
   message: |
     [Full research context + specific questions]
     Please act as a senior ML reviewer (NeurIPS/ICML level). Identify:
@@ -75,7 +75,7 @@ Update project memory/notes with key review conclusions.
 
 ## Key Rules
 
-- ALWAYS use `reasoning_effort: xhigh` for reviews
+- ALWAYS use `reasoning_effort: medium` for reviews
 - Send comprehensive context in Round 1 — the external model cannot read your files
 - Be honest about weaknesses — hiding them leads to worse feedback
 - Push back on criticisms you disagree with, but accept valid ones

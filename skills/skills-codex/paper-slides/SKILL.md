@@ -24,7 +24,7 @@ Unlike posters (single page, visual-first), slides tell a **temporal story**: ea
 - **SPEAKER_NOTES = true** — Generate `\note{}` blocks in beamer and corresponding PPTX notes. Set `false` for clean slides without notes.
 - **PAPER_DIR = `paper/`** — Directory containing the compiled paper.
 - **OUTPUT_DIR = `slides/`** — Output directory for all slide files.
-- **REVIEWER_MODEL = `gpt-5.4`** — Model used via Codex MCP for slide review.
+- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via Codex MCP for slide review.
 - **AUTO_PROCEED = false** — At each checkpoint, **always wait for explicit user confirmation**.
 - **COMPILER = `latexmk`** — LaTeX build tool.
 - **ENGINE = `pdflatex`** — LaTeX engine. Use `xelatex` for CJK text.
@@ -316,11 +316,11 @@ If page count differs significantly from outline (>2 slides off), investigate.
 
 ### Phase 5: Codex MCP Review
 
-Send the slide outline + selected LaTeX frames to GPT-5.4 xhigh:
+Send the slide outline + selected LaTeX frames to qwen3.7-plus medium:
 
 ```
 mcp__codex__codex:
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     Review this [TALK_TYPE] presentation ([TALK_MINUTES] min) for [VENUE].
 
@@ -523,7 +523,7 @@ The paper and code are available at the QR code on screen. I'm happy to take que
   ├── main.pdf              # Compiled slides (primary output)
   ├── presentation.pptx     # Editable PowerPoint
   ├── SLIDE_OUTLINE.md      # Slide-by-slide outline
-  ├── SLIDES_REVIEW.md      # GPT-5.4 review feedback
+  ├── SLIDES_REVIEW.md      # qwen3.7-plus review feedback
   ├── speaker_notes.md      # Per-slide speaker notes
   ├── TALK_SCRIPT.md        # Full word-for-word talk script + Q&A
   ├── SLIDES_STATE.json     # State persistence

@@ -16,7 +16,7 @@ Autonomously iterate: review → implement fixes → re-review, until the extern
 - MAX_ROUNDS = 4
 - POSITIVE_THRESHOLD: score >= 6/10, or verdict contains "accept", "sufficient", "ready for submission"
 - REVIEW_DOC: `AUTO_REVIEW.md` in project root (cumulative log)
-- REVIEWER_MODEL = `gpt-5.4` — Model used via Codex MCP. Must be an OpenAI model (e.g., `gpt-5.4`, `o3`, `gpt-4o`)
+- REVIEWER_MODEL = `qwen3.7-plus` — Model used via Codex MCP. Default reviewer model; can be changed to any model supported by your Codex setup
 - **HUMAN_CHECKPOINT = false** — When `true`, pause after each round's review (Phase B) and present the score + weaknesses to the user. Wait for user input before proceeding to Phase C. The user can: approve the suggested fixes, provide custom modification instructions, skip specific fixes, or stop the loop early. When `false` (default), the loop runs fully autonomously.
 
 > 💡 Override: `/auto-review-loop "topic" — human checkpoint: true`
@@ -69,7 +69,7 @@ Send comprehensive context to the external reviewer:
 
 ```
 mcp__codex__codex:
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     [Round N/MAX_ROUNDS of autonomous review loop]
 
@@ -214,7 +214,7 @@ When loop ends (positive assessment or max rounds):
 
 - **Large file handling**: If the Write tool fails due to file size, immediately retry using Bash (`cat << 'EOF' > file`) to write in chunks. Do NOT ask the user for permission — just do it silently.
 
-- ALWAYS use `config: {"model_reasoning_effort": "xhigh"}` for maximum reasoning depth
+- ALWAYS use `config: {"model_reasoning_effort": "medium"}` for maximum reasoning depth
 - Save threadId from first call, use `mcp__codex__codex-reply` for subsequent rounds
 - **Anti-hallucination citations**: When adding references during fixes, NEVER fabricate BibTeX. Use the same DBLP → CrossRef → `[VERIFY]` chain as `/paper-write`: (1) `curl -s "https://dblp.org/search/publ/api?q=TITLE&format=json"` → get key → `curl -s "https://dblp.org/rec/{key}.bib"`, (2) if not found, `curl -sLH "Accept: application/x-bibtex" "https://doi.org/{doi}"`, (3) if both fail, mark with `% [VERIFY]`. Do NOT generate BibTeX from memory.
 - Be honest — include negative results and failed experiments
@@ -229,7 +229,7 @@ When loop ends (positive assessment or max rounds):
 ```
 mcp__codex__codex-reply:
   threadId: [saved from round 1]
-  config: {"model_reasoning_effort": "xhigh"}
+  config: {"model_reasoning_effort": "medium"}
   prompt: |
     [Round N update]
 
