@@ -9,7 +9,7 @@ Draft a LaTeX paper based on: **$ARGUMENTS**
 
 ## Constants
 
-- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via a secondary Codex agent for section review. Can be changed to any model supported by your Codex setup.
+- **REVIEWER_MODEL = `qwen3.8-max`** — Model used via a secondary Codex agent for section review. Can be changed to any model supported by your Codex setup.
 - **TARGET_VENUE = `ICLR`** — Default venue. Supported: `ICLR`, `NeurIPS`, `ICML`. Determines style file and formatting.
 - **ANONYMOUS = true** — If true, use anonymous author block. Set `false` for camera-ready.
 - **MAX_PAGES = 9** — Main body page limit. Counts from first page to end of Conclusion section. References and appendix are NOT counted.
@@ -246,11 +246,11 @@ After drafting all sections, scan for common AI writing patterns and fix them:
 
 ### Step 6: Cross-Review with REVIEWER_MODEL
 
-Send the complete draft to qwen3.7-plus medium:
+Send the complete draft to qwen3.8-max medium:
 
 ```
 spawn_agent:
-  model: qwen3.7-plus
+  model: qwen3.8-max
   reasoning_effort: medium
   message: |
     Review this [VENUE] paper draft (main body, excluding appendix).

@@ -128,7 +128,7 @@
       <rect x="37" y="91" width="7" height="7" fill="#444"/>
       <rect x="44" y="91" width="7" height="7" fill="#444"/>
     </g>
-    <text x="387" y="82" text-anchor="middle" fill="#74AA63" font-size="7px" font-weight="bold">qwen3.7-plus medium</text>
+    <text x="387" y="82" text-anchor="middle" fill="#74AA63" font-size="7px" font-weight="bold">qwen3.8-max medium</text>
 
     <!-- Conversation bubbles (compressed spacing) -->
     <rect x="65" y="90" width="200" height="22" fill="#e8f4fd" stroke="#4a9eda" stroke-width="1.2" rx="6"/>
@@ -265,7 +265,7 @@
     <text x="275" y="166" font-size="8px" fill="#4aaa4a"> ████░ 78%</text>
     <text x="233" y="178" font-size="8px" fill="#4aaa4a">Loss: 2.341 → 1.872</text>
 
-    <!-- qwen3.7-plus mini pixel character (code reviewer) between code and deploy -->
+    <!-- qwen3.8-max mini pixel character (code reviewer) between code and deploy -->
     <g transform="translate(355,192) scale(0.5)">
       <!-- Hair (dark) -->
       <rect x="20" y="42" width="7" height="7" fill="#2C2C2C"/>
@@ -323,7 +323,7 @@
       <rect x="37" y="91" width="7" height="7" fill="#444"/>
       <rect x="44" y="91" width="7" height="7" fill="#444"/>
     </g>
-    <text x="372" y="247" text-anchor="middle" font-size="6px" fill="#74AA63" font-weight="bold">qwen3.7-plus</text>
+    <text x="372" y="247" text-anchor="middle" font-size="6px" fill="#74AA63" font-weight="bold">qwen3.8-max</text>
     <text x="372" y="254" text-anchor="middle" font-size="5px" fill="#74AA63">(Code Review)</text>
 
     <!-- Results panel -->
@@ -449,7 +449,7 @@
       <rect x="667" y="91" width="7" height="7" fill="#444"/>
       <rect x="674" y="91" width="7" height="7" fill="#444"/>
     </g>
-    <text x="813" y="178" text-anchor="middle" fill="#74AA63" font-size="9px" font-weight="bold">qwen3.7-plus medium</text>
+    <text x="813" y="178" text-anchor="middle" fill="#74AA63" font-size="9px" font-weight="bold">qwen3.8-max medium</text>
     <text x="813" y="188" text-anchor="middle" fill="#74AA63" font-size="9px" font-weight="bold">(Reviewer)</text>
 
     <!-- Row 1: CC → GPT -->
@@ -612,8 +612,8 @@
     <line x1="365" y1="135" x2="381" y2="135" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="4,2"/>
     <line x1="615" y1="135" x2="631" y2="135" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="4,2"/>
 
-    <!-- qwen3.7-plus label near score cards -->
-    <text x="498" y="238" text-anchor="middle" font-size="8px" fill="#74AA63" font-weight="bold">reviewed by qwen3.7-plus medium</text>
+    <!-- qwen3.8-max label near score cards -->
+    <text x="498" y="238" text-anchor="middle" font-size="8px" fill="#74AA63" font-weight="bold">reviewed by qwen3.8-max medium</text>
 
     <!-- Gemini Pixel Character (purple, right side, same size as CC/GPT) -->
     <g transform="translate(760,120)">

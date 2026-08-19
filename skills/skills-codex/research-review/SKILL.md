@@ -9,7 +9,7 @@ Get a multi-round critical review of research work from an external LLM with max
 
 ## Constants
 
-- REVIEWER_MODEL = `qwen3.7-plus` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
+- REVIEWER_MODEL = `qwen3.8-max` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
 
 ## Context: $ARGUMENTS
 

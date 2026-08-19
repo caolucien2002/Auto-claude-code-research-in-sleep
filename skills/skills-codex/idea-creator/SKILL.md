@@ -17,7 +17,7 @@ Given a broad research direction from the user, systematically generate, validat
 - **PILOT_TIMEOUT_HOURS = 3** — Hard timeout: kill pilots exceeding 3 hours. Collect partial results if available.
 - **MAX_PILOT_IDEAS = 3** — Pilot at most 3 ideas in parallel. Additional ideas are validated on paper only.
 - **MAX_TOTAL_GPU_HOURS = 8** — Total GPU budget for all pilots combined.
-- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via a secondary Codex agent for brainstorming and review. Default reviewer model; can be changed to any model supported by your Codex setup.
+- **REVIEWER_MODEL = `qwen3.8-max`** — Model used via a secondary Codex agent for brainstorming and review. Default reviewer model; can be changed to any model supported by your Codex setup.
 
 > 💡 Override via argument, e.g., `/idea-creator "topic" — pilot budget: 4h per idea, 20h total`.
 
@@ -108,9 +108,9 @@ Eliminate ideas that fail any of these. Typically 8-12 ideas reduce to 4-6.
 
 For each surviving idea, run a deeper evaluation:
 
-1. **Novelty check**: Use the `/novelty-check` workflow (multi-source search + qwen3.7-plus cross-verification) for each idea
+1. **Novelty check**: Use the `/novelty-check` workflow (multi-source search + qwen3.8-max cross-verification) for each idea
 
-2. **Critical review**: Use qwen3.7-plus via `send_input` (same agent):
+2. **Critical review**: Use qwen3.8-max via `send_input` (same agent):
    ```
    Here are our top ideas after filtering:
    [paste surviving ideas with novelty check results]
@@ -122,7 +122,7 @@ For each surviving idea, run a deeper evaluation:
    - Which 2-3 would you actually work on?
    ```
 
-3. **Combine rankings**: Merge your assessment with qwen3.7-plus's ranking. Select top 2-3 ideas for pilot experiments.
+3. **Combine rankings**: Merge your assessment with qwen3.8-max's ranking. Select top 2-3 ideas for pilot experiments.
 
 ### Phase 5: Parallel Pilot Experiments (for top 2-3 ideas)
 

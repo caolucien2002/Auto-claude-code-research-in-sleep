@@ -27,7 +27,7 @@ Each phase builds on the previous one's output. The final deliverables are a val
 - **MAX_PILOT_IDEAS = 3** — Run pilots for at most 3 top ideas in parallel. Additional ideas are validated on paper only.
 - **MAX_TOTAL_GPU_HOURS = 8** — Total GPU budget across all pilots. If exceeded, skip remaining pilots and note in report.
 - **AUTO_PROCEED = true** — If user doesn't respond at a checkpoint, automatically proceed with the best option after presenting results. Set to `false` to always wait for explicit user confirmation.
-- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via Codex MCP. Default reviewer model; can be changed to any model supported by your Codex setup. Passed to sub-skills.
+- **REVIEWER_MODEL = `qwen3.8-max`** — Model used via Codex MCP. Default reviewer model; can be changed to any model supported by your Codex setup. Passed to sub-skills.
 - **ARXIV_DOWNLOAD = false** — When `true`, `/research-lit` downloads the top relevant arXiv PDFs during Phase 1. When `false` (default), only fetches metadata. Passed through to `/research-lit`.
 
 > 💡 These are defaults. Override by telling the skill, e.g., `/idea-discovery "topic" — pilot budget: 4h per idea, 20h total` or `/idea-discovery "topic" — arxiv download: true`.
@@ -70,7 +70,7 @@ Invoke `/idea-creator` with the landscape context:
 ```
 
 **What this does:**
-- Brainstorm 8-12 concrete ideas via qwen3.7-plus medium
+- Brainstorm 8-12 concrete ideas via qwen3.8-max medium
 - Filter by feasibility, compute cost, quick novelty search
 - Deep validate top ideas (full novelty check + devil's advocate)
 - Run parallel pilot experiments on available GPUs (top 2-3 ideas)
@@ -105,7 +105,7 @@ For each top idea (positive pilot signal), run a thorough novelty check:
 
 **What this does:**
 - Multi-source literature search (arXiv, Scholar, Semantic Scholar)
-- Cross-verify with qwen3.7-plus medium
+- Cross-verify with qwen3.8-max medium
 - Check for concurrent work (last 3-6 months)
 - Identify closest existing work and differentiation points
 
@@ -120,7 +120,7 @@ For the surviving top idea(s), get brutal feedback:
 ```
 
 **What this does:**
-- qwen3.7-plus medium acts as a senior reviewer (NeurIPS/ICML level)
+- qwen3.8-max medium acts as a senior reviewer (NeurIPS/ICML level)
 - Scores the idea, identifies weaknesses, suggests minimum viable improvements
 - Provides concrete feedback on experimental design
 
@@ -136,7 +136,7 @@ After review, refine the top idea into a concrete proposal and plan experiments:
 
 **What this does:**
 - Freeze a **Problem Anchor** to prevent scope drift
-- Iteratively refine the method via qwen3.7-plus review (up to 5 rounds, until score ≥ 9)
+- Iteratively refine the method via qwen3.8-max review (up to 5 rounds, until score ≥ 9)
 - Generate a claim-driven experiment roadmap with ablations, budgets, and run order
 - Output: `refine-logs/FINAL_PROPOSAL.md`, `refine-logs/EXPERIMENT_PLAN.md`, `refine-logs/EXPERIMENT_TRACKER.md`
 

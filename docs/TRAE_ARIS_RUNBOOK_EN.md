@@ -255,7 +255,7 @@ Each stage reads output files from the previous stage, so context can be passed 
 
 | ARIS MCP tool | Purpose | Required MCP server |
 |---|---|---|
-| `mcp__codex__codex` | Send review prompt to qwen3.7-plus | codex |
+| `mcp__codex__codex` | Send review prompt to qwen3.8-max | codex |
 | `mcp__codex__codex-reply` | Continue review thread | codex |
 | `mcp__llm-chat__chat` | Send prompt to OpenAI-compatible models | llm-chat |
 

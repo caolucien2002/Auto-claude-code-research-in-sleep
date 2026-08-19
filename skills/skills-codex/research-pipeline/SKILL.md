@@ -114,7 +114,7 @@ Once initial results are in, start the autonomous improvement loop:
 ```
 
 **What this does (up to 4 rounds):**
-1. qwen3.7-plus medium reviews the work (score, weaknesses, minimum fixes)
+1. qwen3.8-max medium reviews the work (score, weaknesses, minimum fixes)
 2. Codex implements fixes (code changes, new experiments, reframing)
 3. Deploy fixes, collect new results
 4. Re-review → repeat until score ≥ 6/10 or 4 rounds reached

@@ -199,7 +199,7 @@ Save all snippets to `figures/latex_includes.tex` for easy copy-paste into the p
 
 ### Step 7: Figure Quality Review with REVIEWER_MODEL
 
-Send figure descriptions and captions to qwen3.7-plus for review:
+Send figure descriptions and captions to qwen3.8-max for review:
 
 ```
 mcp__claude-review__review_start:

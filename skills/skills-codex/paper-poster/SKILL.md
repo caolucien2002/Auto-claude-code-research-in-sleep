@@ -23,7 +23,7 @@ Unlike papers (dense prose, 8-15 pages), posters are **visual-first**: one page,
 - **COLUMNS = 4** — Number of content columns. Typical: 4 for landscape A0 (IMRAD), **3 for portrait A0** (research consensus), 2 for portrait A1. Portrait A0 should NEVER use 4 columns — text becomes too narrow and unreadable.
 - **PAPER_DIR = `paper/`** — Directory containing the compiled paper (main.tex + figures/).
 - **OUTPUT_DIR = `poster/`** — Output directory for all poster files.
-- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via Codex MCP for poster review.
+- **REVIEWER_MODEL = `qwen3.8-max`** — Model used via Codex MCP for poster review.
 - **AUTO_PROCEED = false** — At each checkpoint, **always wait for explicit user confirmation**. Set `true` only if user explicitly requests fully autonomous mode.
 - **COMPILER = `latexmk`** — LaTeX build tool.
 - **ENGINE = `pdflatex`** — LaTeX engine. Use `xelatex` for CJK text.
@@ -761,7 +761,7 @@ Append all iteration scores and feedback to `poster/POSTER_VISUAL_REVIEW.md`:
 
 ### Phase 6: Codex MCP Review
 
-Send the poster content plan + key LaTeX sections to qwen3.7-plus medium for review.
+Send the poster content plan + key LaTeX sections to qwen3.8-max medium for review.
 
 ```
 mcp__codex__codex:

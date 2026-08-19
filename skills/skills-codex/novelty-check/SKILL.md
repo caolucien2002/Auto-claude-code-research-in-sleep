@@ -9,7 +9,7 @@ Check whether a proposed method/idea has already been done in the literature: **
 
 ## Constants
 
-- REVIEWER_MODEL = `qwen3.7-plus` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
+- REVIEWER_MODEL = `qwen3.8-max` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
 
 ## Instructions
 

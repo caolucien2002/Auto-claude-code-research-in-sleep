@@ -255,7 +255,7 @@ Trae 通过 `SKILL.md` 中的 YAML `description` 字段自动发现 ARIS 技能�
 
 | ARIS MCP 工具 | 作用 | 需要的 MCP Server |
 |---|---|---|
-| `mcp__codex__codex` | 发审阅请求到 qwen3.7-plus | codex |
+| `mcp__codex__codex` | 发审阅请求到 qwen3.8-max | codex |
 | `mcp__codex__codex-reply` | 续接审阅线程 | codex |
 | `mcp__llm-chat__chat` | 发请求到兼容 OpenAI API 模型 | llm-chat |
 

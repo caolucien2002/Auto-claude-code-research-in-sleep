@@ -32,7 +32,7 @@ Grant proposals argue for **future work** (feasibility + potential), not complet
 
 - **GRANT_TYPE = `KAKENHI`** — Default grant type. Supported: `KAKENHI`, `NSF`, `NSFC`, `ERC`, `DFG`, `SNSF`, `ARC`, `NWO`, `GENERIC`. Override via argument (e.g., `/grant-proposal "topic — NSF"`).
 - **GRANT_SUBTYPE = `auto`** — Sub-type within the grant agency. Examples: KAKENHI `Start-up`/`Wakate`/`Kiban-B`; NSFC `Youth`/`Excellent-Youth`/`Distinguished`/`Overseas`/`Key`; NSF `CAREER`/`CRII`/`Standard`. Auto-detected from argument or defaults to the most common sub-type.
-- **REVIEWER_MODEL = `qwen3.7-plus`** — Model used via a secondary Codex agent for proposal review. Default reviewer model; can be changed to any model supported by your Codex setup.
+- **REVIEWER_MODEL = `qwen3.8-max`** — Model used via a secondary Codex agent for proposal review. Default reviewer model; can be changed to any model supported by your Codex setup.
 - **OUTPUT_FORMAT = `markdown`** — Output format. Supported: `markdown`, `latex`. LaTeX uses grant-specific templates when available.
 - **MAX_REVIEW_ROUNDS = 2** — Maximum external review-revise cycles before finalizing.
 - **OUTPUT_DIR = `grant-proposal/`** — Directory for generated proposal files.
@@ -288,7 +288,7 @@ Timeline: [timeline]
 ```
 
 **What this does:**
-- qwen3.7-plus medium acts as a grant review panelist (not a paper reviewer)
+- qwen3.8-max medium acts as a grant review panelist (not a paper reviewer)
 - Evaluates aims independence, narrative arc, risk identification, timeline realism
 - Identifies the single biggest reviewer concern
 - Provides actionable fixes ranked by severity
@@ -304,7 +304,7 @@ Apply structural feedback before proceeding to drafting.
 - Aim 2: [title] — Risk: MEDIUM
 - Aim 3: [title] — Risk: LOW
 - Timeline: [summary]
-- Reviewer feedback: [key points from qwen3.7-plus]
+- Reviewer feedback: [key points from qwen3.8-max]
 
 Proceed to section drafting? Or adjust the structure?
 ```
@@ -417,7 +417,7 @@ Invoke `/research-review` on the complete draft for grant-type-specific evaluati
 ```
 
 **What this does:**
-- qwen3.7-plus medium acts as a grant review panelist
+- qwen3.8-max medium acts as a grant review panelist
 - Scores each section 1-5 using agency-specific criteria
 - Identifies fatal flaws and recommends funding/revisions/rejection
 - Provides ranked action items for improvement
@@ -539,7 +539,7 @@ Before declaring done:
 - Language: [language]
 - Aims: [N] aims covering [summary]
 - Timeline: [N] years
-- Review score: [summary from qwen3.7-plus]
+- Review score: [summary from qwen3.8-max]
 - Output: grant-proposal/GRANT_PROPOSAL.md
 
 Files saved to grant-proposal/. Please review and customize:
@@ -585,7 +585,7 @@ Parameters can be passed inline with `—` separator. They flow to sub-skills wh
 | `max review rounds` | 2 | External review cycles | — |
 | `sources` | all | Literature sources | → `/research-lit` |
 | `arxiv download` | false | Download arXiv PDFs | → `/research-lit` |
-| `reviewer model` | qwen3.7-plus | Codex review model | → reviewer agent |
+| `reviewer model` | qwen3.8-max | Codex review model | → reviewer agent |
 | `auto proceed` | false | Skip checkpoints | — |
 
 ## Composing with Other Skills
