@@ -17,7 +17,7 @@ Given a broad research direction from the user, systematically generate, validat
 - **PILOT_TIMEOUT_HOURS = 3** — Hard timeout: kill pilots exceeding 3 hours. Collect partial results if available.
 - **MAX_PILOT_IDEAS = 3** — Pilot at most 3 ideas in parallel. Additional ideas are validated on paper only.
 - **MAX_TOTAL_GPU_HOURS = 8** — Total GPU budget for all pilots combined.
-- **REVIEWER_MODEL = `qwen3.8-flash`** — Model used via a secondary Codex agent for brainstorming and review. Default reviewer model; can be changed to any model supported by your Codex setup.
+- **REVIEWER_MODEL = `gpt-5.4`** — Model used via a secondary Codex agent for brainstorming and review. Default reviewer model; can be changed to any model supported by your Codex setup.
 
 > 💡 Override via argument, e.g., `/idea-creator "topic" — pilot budget: 4h per idea, 20h total`.
 
@@ -55,7 +55,7 @@ Use a secondary Codex agent for divergent thinking:
 ```
 spawn_agent:
   model: REVIEWER_MODEL
-  reasoning_effort: medium
+  reasoning_effort: high
   message: |
     You are a senior ML researcher brainstorming research ideas.
 
@@ -108,9 +108,9 @@ Eliminate ideas that fail any of these. Typically 8-12 ideas reduce to 4-6.
 
 For each surviving idea, run a deeper evaluation:
 
-1. **Novelty check**: Use the `/novelty-check` workflow (multi-source search + qwen3.8-flash cross-verification) for each idea
+1. **Novelty check**: Use the `/novelty-check` workflow (multi-source search + gpt-5.4 cross-verification) for each idea
 
-2. **Critical review**: Use qwen3.8-flash via `send_input` (same agent):
+2. **Critical review**: Use gpt-5.4 via `send_input` (same agent):
    ```
    Here are our top ideas after filtering:
    [paste surviving ideas with novelty check results]
@@ -122,7 +122,7 @@ For each surviving idea, run a deeper evaluation:
    - Which 2-3 would you actually work on?
    ```
 
-3. **Combine rankings**: Merge your assessment with qwen3.8-flash's ranking. Select top 2-3 ideas for pilot experiments.
+3. **Combine rankings**: Merge your assessment with gpt-5.4's ranking. Select top 2-3 ideas for pilot experiments.
 
 ### Phase 5: Parallel Pilot Experiments (for top 2-3 ideas)
 
