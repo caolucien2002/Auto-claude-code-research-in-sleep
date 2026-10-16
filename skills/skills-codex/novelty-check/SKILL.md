@@ -9,7 +9,7 @@ Check whether a proposed method/idea has already been done in the literature: **
 
 ## Constants
 
-- REVIEWER_MODEL = `qwen3.8-flash` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
+- REVIEWER_MODEL = `gpt-5.4` — Model used via a secondary Codex agent. Default reviewer model; can be changed to any model supported by your Codex setup
 
 ## Instructions
 
@@ -39,9 +39,9 @@ For EACH core claim, search using ALL available sources:
 3. **Read abstracts**: For each potentially overlapping paper, WebFetch its abstract and related work section
 
 ### Phase C: Cross-Model Verification
-Call REVIEWER_MODEL via `spawn_agent` (`spawn_agent`) with medium reasoning:
+Call REVIEWER_MODEL via `spawn_agent` (`spawn_agent`) with high reasoning:
 ```
-reasoning_effort: medium
+reasoning_effort: high
 ```
 Prompt should include:
 - The proposed method description

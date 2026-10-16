@@ -11,7 +11,7 @@ Generate a structured, section-by-section paper outline from: **$ARGUMENTS**
 
 ## Constants
 
-- **REVIEWER_MODEL = `qwen3.8-flash`** — Model used via Codex MCP for outline review. Can be changed to any model supported by your Codex setup.
+- **REVIEWER_MODEL = `gpt-5.4`** — Model used via Codex MCP for outline review. Can be changed to any model supported by your Codex setup.
 - **TARGET_VENUE = `ICLR`** — Default venue. User can override (e.g., `/paper-plan "topic" — venue: NeurIPS`). Supported: `ICLR`, `NeurIPS`, `ICML`.
 - **MAX_PAGES** — Main body page limit, measured from first page to end of Conclusion section (excluding references, appendix, and acknowledgements). ICLR=9, NeurIPS=9, ICML=8.
 
@@ -202,12 +202,12 @@ For each section, list required citations:
 
 ### Step 6: Cross-Review with REVIEWER_MODEL
 
-Send the complete outline to qwen3.8-flash medium for feedback:
+Send the complete outline to gpt-5.4 high for feedback:
 
 ```
 mcp__codex__codex:
-  model: qwen3.8-flash
-  config: {"model_reasoning_effort": "medium"}
+  model: gpt-5.4
+  config: {"model_reasoning_effort": "high"}
   prompt: |
     Review this paper outline for a [VENUE] submission.
     [full outline including Claims-Evidence Matrix]

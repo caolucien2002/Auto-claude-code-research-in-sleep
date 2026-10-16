@@ -11,7 +11,7 @@ Check whether a proposed method/idea has already been done in the literature: **
 
 ## Constants
 
-- REVIEWER_MODEL = `qwen3.8-flash` — Model used via Codex MCP. Default reviewer model; can be changed to any model supported by your Codex setup
+- REVIEWER_MODEL = `gpt-5.4` — Model used via Codex MCP. Default reviewer model; can be changed to any model supported by your Codex setup
 
 ## Instructions
 
@@ -41,9 +41,9 @@ For EACH core claim, search using ALL available sources:
 3. **Read abstracts**: For each potentially overlapping paper, WebFetch its abstract and related work section
 
 ### Phase C: Cross-Model Verification
-Call REVIEWER_MODEL via Codex MCP (`mcp__codex__codex`) with medium reasoning:
+Call REVIEWER_MODEL via Codex MCP (`mcp__codex__codex`) with high reasoning:
 ```
-config: {"model_reasoning_effort": "medium"}
+config: {"model_reasoning_effort": "high"}
 ```
 Prompt should include:
 - The proposed method description
